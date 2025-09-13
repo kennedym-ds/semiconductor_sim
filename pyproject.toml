@@ -22,6 +22,7 @@ dependencies = [
 	"plotly",
 	"ipywidgets",
 	"joblib",
+	"pyyaml",
 ]
 classifiers = [
 	"Development Status :: 3 - Alpha",
@@ -37,6 +38,9 @@ classifiers = [
 	"Programming Language :: Python :: 3.13",
 	"Operating System :: OS Independent",
 ]
+
+[project.scripts]
+semiconductor-sim = "semiconductor_sim.cli.main:main"
 
 [project.urls]
 Homepage = "https://github.com/kennedym-ds/semiconductor_sim"

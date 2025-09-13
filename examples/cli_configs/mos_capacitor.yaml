@@ -1,0 +1,7 @@
+doping_p: 1.0e+17
+oxide_thickness: 1.0e-6
+oxide_permittivity: 3.45
+area: 1.0e-4
+temperature: 300
+tau_n: 1.0e-6
+tau_p: 1.0e-6

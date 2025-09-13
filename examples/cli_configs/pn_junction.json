@@ -1,0 +1,8 @@
+{
+  "doping_p": 1e17,
+  "doping_n": 1e17,
+  "area": 1e-4,
+  "temperature": 300,
+  "tau_n": 1e-6,
+  "tau_p": 1e-6
+}
