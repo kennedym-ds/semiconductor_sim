@@ -1,0 +1,25 @@
+# Bandit security scanner configuration
+# https://bandit.readthedocs.io/en/latest/config.html
+
+# Exclude paths from scanning
+exclude_dirs:
+  - 'tests'
+  - '.tox'
+  - '.venv'
+  - 'venv'
+  - 'build'
+  - 'dist'
+  - '.git'
+
+# Test selection - run all tests by default
+# tests: []
+
+# Skip certain tests if needed
+skips:
+  # Uncomment below to skip try-except-pass warnings if desired
+  # - B110
+
+# Configure severity levels
+# Baseline recommendation: only fail on medium and high severity
+confidence_level: medium
+severity_level: medium

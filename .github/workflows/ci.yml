@@ -33,7 +33,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest ruff mypy coverage
-          pip install pip-audit
+          pip install pip-audit bandit[toml]
 
       - name: Lint (ruff)
         run: ruff check .
@@ -48,6 +48,20 @@ jobs:
         run: |
           pip-audit -r requirements.txt || pip-audit || exit 1
         shell: bash
+
+      - name: Security scan (bandit)
+        run: |
+          bandit -c bandit.yaml -r semiconductor_sim/ -f json -o bandit-results.json || true
+          bandit -c bandit.yaml -r semiconductor_sim/ --severity-level medium --confidence-level medium
+        shell: bash
+        continue-on-error: true
+
+      - name: Upload bandit security results
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-security-results-${{ matrix.python-version }}
+          path: bandit-results.json
+        if: always()
 
       - name: Run tests with coverage threshold
         run: |

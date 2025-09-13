@@ -1,4 +1,0 @@
-# file: c:\users\micha\onedrive\documents\projects\semiconductor_sim\semiconductor_sim\devices\solar_cell.py
-# hypothesis_version: 6.138.15
-
-[1e-12, 0.0001, 1.0, 1000000000000.0, 'Current (A)', 'Solar Cell IV', 'Voltage (V)', 'np.ndarray | float']
