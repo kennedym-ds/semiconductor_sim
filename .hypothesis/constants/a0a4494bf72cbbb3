@@ -1,0 +1,4 @@
+# file: C:\Users\Micha\AppData\Roaming\Python\Python313\site-packages\psutil\_compat.py
+# hypothesis_version: 6.138.15
+
+[100, '1234', 'CPython', 'CacheInfo', 'ChildProcessError', 'FileExistsError', 'FileNotFoundError', 'InterruptedError', 'PATH', 'PATHEXT', 'PY3', 'PermissionError', 'ProcessLookupError', '__', 'b', 'basestring', 'currsize', 'errno', 'get_terminal_size', 'hashvalue', 'hh', 'hits', 'latin-1', 'long', 'lru_cache', 'maxsize', 'misses', 'perm', 'range', 'redirect_stderr', 'super', 'unicode', 'which', 'win32']

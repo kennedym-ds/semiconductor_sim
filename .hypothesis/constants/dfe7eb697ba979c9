@@ -1,0 +1,4 @@
+# file: c:\users\micha\onedrive\documents\projects\semiconductor_sim\semiconductor_sim\devices\mos_capacitor.py
+# hypothesis_version: 6.138.15
+
+[1e-06, 0.0001, 0.7, 3.45, 'Agg', 'C-V Characteristic', 'Capacitance (F)', 'Current (A)', 'Gate Voltage (V)', 'IV Characteristic', 'SRH Recombination', 'Voltage (V)', 'tab:blue', 'tab:green', 'y']

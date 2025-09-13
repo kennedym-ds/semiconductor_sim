@@ -1,0 +1,4 @@
+# file: c:\users\micha\onedrive\documents\projects\semiconductor_sim\semiconductor_sim\devices\zener_diode.py
+# hypothesis_version: 6.138.15
+
+[1e-06, 0.0001, 0.0005, 0.1, 1.5, 5.0, 15000000000.0, 300, '..', 'Agg', 'Current (A)', 'IV Characteristic', 'SRH Recombination', 'Voltage (V)', 'models', 'tab:blue', 'tab:green', 'y']

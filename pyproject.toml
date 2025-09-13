@@ -1,0 +1,52 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semiconductor-sim"
+version = "0.1.1"
+description = "A simulation library for basic semiconductor devices aimed at undergraduates."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+	{ name = "Michael Kennedy", email = "michael.patrick.kennedy@outlook.ie" },
+]
+keywords = ["semiconductor", "devices", "pn-junction", "led", "solar-cell", "zener", "mos", "education", "simulation"]
+dependencies = [
+	"numpy",
+	"matplotlib",
+	"scipy",
+	"plotly",
+	"ipywidgets",
+	"joblib",
+]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Education",
+	"Intended Audience :: Science/Research",
+	"Topic :: Scientific/Engineering",
+	"Topic :: Education",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3.13",
+	"Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/kennedym-ds/semiconductor_sim"
+Repository = "https://github.com/kennedym-ds/semiconductor_sim"
+Documentation = "https://kennedym-ds.github.io/semiconductor_sim/"
+Bug-Tracker = "https://github.com/kennedym-ds/semiconductor_sim/issues"
+Changelog = "https://github.com/kennedym-ds/semiconductor_sim/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+packages = { find = { include = ["semiconductor_sim", "semiconductor_sim.*"] } }
+
+[tool.setuptools.package-data]
+semiconductor_sim = ["py.typed"]

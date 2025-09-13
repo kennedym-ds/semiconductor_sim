@@ -1,0 +1,4 @@
+# file: c:\users\micha\onedrive\documents\projects\semiconductor_sim\semiconductor_sim\utils\plotting.py
+# hypothesis_version: 6.138.15
+
+['Agg', 'axes.grid', 'axes.labelsize', 'axes.titlesize', 'figure.figsize', 'legend.fontsize']
