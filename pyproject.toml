@@ -38,6 +38,9 @@ classifiers = [
 	"Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+schemas = ["pydantic>=2.0.0"]
+
 [project.urls]
 Homepage = "https://github.com/kennedym-ds/semiconductor_sim"
 Repository = "https://github.com/kennedym-ds/semiconductor_sim"

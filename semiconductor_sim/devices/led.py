@@ -54,6 +54,78 @@ class LED(Device):
         self.L_p = float(L_p)
         self.I_s = self.calculate_saturation_current()
 
+    @classmethod
+    def from_preset(
+        cls,
+        material: str,
+        doping_p: float,
+        doping_n: float,
+        area: float = 1e-4,
+        efficiency: float = 0.1,
+        temperature: float = DEFAULT_T,
+        **kwargs
+    ) -> "LED":
+        """Create an LED using material presets.
+        
+        Args:
+            material: Material name (e.g., "GaAs", "GaN", "InP")
+            doping_p: Acceptor concentration in p-region (cm^-3)
+            doping_n: Donor concentration in n-region (cm^-3)
+            area: Cross-sectional area of the LED (cm^2)
+            efficiency: Radiative recombination efficiency (0 to 1)
+            temperature: Operating temperature (K)
+            **kwargs: Override specific material parameters
+            
+        Returns:
+            LED instance with material-specific parameters
+            
+        Raises:
+            ImportError: If pydantic is not installed
+            ValueError: If material is not found
+            
+        Example:
+            >>> led = LED.from_preset("GaAs", doping_p=1e17, doping_n=1e18, efficiency=0.8)
+            >>> led_custom = LED.from_preset("GaN", 1e17, 1e18, B=5e-11)
+        """
+        try:
+            from ..schemas.material_presets import get_material_properties
+        except ImportError:
+            raise ImportError(
+                "Material presets require the schemas module. "
+                "Install with: pip install semiconductor-sim[schemas]"
+            )
+        
+        # Get material properties
+        material_props = get_material_properties(material)
+        
+        # Start with material defaults, but only use parameters that the LED class accepts
+        params = {
+            'doping_p': doping_p,
+            'doping_n': doping_n,
+            'area': area,
+            'efficiency': efficiency,
+            'temperature': temperature,
+            'B': material_props.B,
+            'D_n': material_props.D_n,
+            'D_p': material_props.D_p,
+            'L_n': material_props.L_n,
+            'L_p': material_props.L_p,
+        }
+        
+        # Override with any user-provided values
+        params.update(kwargs)
+        
+        # Validate parameters if schemas are available
+        try:
+            from ..schemas.device_schemas import LEDSchema
+            schema = LEDSchema(**params)
+            validated_params = schema.model_dump()
+        except ImportError:
+            # If schemas not available, use params as-is
+            validated_params = params
+        
+        return cls(**validated_params)
+
     def calculate_saturation_current(self) -> float:
         """
         Calculate the saturation current (I_s) considering temperature.

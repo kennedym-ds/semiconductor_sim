@@ -56,6 +56,76 @@ class PNJunctionDiode(Device):
         self.L_p = float(L_p)
         self.I_s = self.calculate_saturation_current()
 
+    @classmethod
+    def from_preset(
+        cls,
+        material: str,
+        doping_p: float,
+        doping_n: float,
+        area: float = 1e-4,
+        temperature: float = DEFAULT_T,
+        **kwargs
+    ) -> "PNJunctionDiode":
+        """Create a PN Junction Diode using material presets.
+        
+        Args:
+            material: Material name (e.g., "Si", "GaAs", "Ge")
+            doping_p: Acceptor concentration in p-region (cm^-3)
+            doping_n: Donor concentration in n-region (cm^-3)
+            area: Cross-sectional area of the diode (cm^2)
+            temperature: Operating temperature (K)
+            **kwargs: Override specific material parameters
+            
+        Returns:
+            PNJunctionDiode instance with material-specific parameters
+            
+        Raises:
+            ImportError: If pydantic is not installed
+            ValueError: If material is not found
+            
+        Example:
+            >>> diode = PNJunctionDiode.from_preset("Si", doping_p=1e16, doping_n=1e17)
+            >>> diode_custom = PNJunctionDiode.from_preset("GaAs", 1e16, 1e17, tau_n=5e-10)
+        """
+        try:
+            from ..schemas.material_presets import get_material_properties
+        except ImportError:
+            raise ImportError(
+                "Material presets require the schemas module. "
+                "Install with: pip install semiconductor-sim[schemas]"
+            )
+        
+        # Get material properties
+        material_props = get_material_properties(material)
+        
+        # Start with material defaults
+        params = {
+            'doping_p': doping_p,
+            'doping_n': doping_n,
+            'area': area,
+            'temperature': temperature,
+            'tau_n': material_props.tau_n,
+            'tau_p': material_props.tau_p,
+            'D_n': material_props.D_n,
+            'D_p': material_props.D_p,
+            'L_n': material_props.L_n,
+            'L_p': material_props.L_p,
+        }
+        
+        # Override with any user-provided values
+        params.update(kwargs)
+        
+        # Validate parameters if schemas are available
+        try:
+            from ..schemas.device_schemas import PNJunctionSchema
+            schema = PNJunctionSchema(**params)
+            validated_params = schema.model_dump()
+        except ImportError:
+            # If schemas not available, use params as-is
+            validated_params = params
+        
+        return cls(**validated_params)
+
     def calculate_saturation_current(self) -> float:
         """Calculate the saturation current (I_s) considering temperature."""
         # Intrinsic carrier concentration with temperature dependence

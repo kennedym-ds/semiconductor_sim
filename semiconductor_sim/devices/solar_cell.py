@@ -35,6 +35,72 @@ class SolarCell(Device):
         self.I_sc = self.calculate_short_circuit_current()
         self.V_oc = self.calculate_open_circuit_voltage()
 
+    @classmethod
+    def from_preset(
+        cls,
+        material: str,
+        doping_p: float,
+        doping_n: float,
+        area: float = 1e-4,
+        light_intensity: float = 1.0,
+        temperature: float = DEFAULT_T,
+        **kwargs
+    ) -> "SolarCell":
+        """Create a Solar Cell using material presets.
+        
+        Args:
+            material: Material name (e.g., "Si", "GaAs", "Ge")
+            doping_p: Acceptor concentration in p-region (cm^-3)
+            doping_n: Donor concentration in n-region (cm^-3)
+            area: Cross-sectional area of the solar cell (cm^2)
+            light_intensity: Incident light intensity (arbitrary units)
+            temperature: Operating temperature (K)
+            **kwargs: Additional parameters (currently none specific to solar cells)
+            
+        Returns:
+            SolarCell instance with material-specific parameters
+            
+        Raises:
+            ImportError: If pydantic is not installed
+            ValueError: If material is not found
+            
+        Example:
+            >>> cell = SolarCell.from_preset("Si", doping_p=1e16, doping_n=1e17, light_intensity=1.5)
+        """
+        try:
+            from ..schemas.material_presets import get_material_properties
+        except ImportError:
+            raise ImportError(
+                "Material presets require the schemas module. "
+                "Install with: pip install semiconductor-sim[schemas]"
+            )
+        
+        # Get material properties (although solar cell doesn't use many of them directly)
+        material_props = get_material_properties(material)
+        
+        # Start with basic parameters
+        params = {
+            'doping_p': doping_p,
+            'doping_n': doping_n,
+            'area': area,
+            'light_intensity': light_intensity,
+            'temperature': temperature,
+        }
+        
+        # Override with any user-provided values
+        params.update(kwargs)
+        
+        # Validate parameters if schemas are available
+        try:
+            from ..schemas.device_schemas import SolarCellSchema
+            schema = SolarCellSchema(**params)
+            validated_params = schema.model_dump()
+        except ImportError:
+            # If schemas not available, use params as-is
+            validated_params = params
+        
+        return cls(**validated_params)
+
     def calculate_short_circuit_current(self) -> float:
         """
         Calculate the short-circuit current (I_sc) based on light intensity.
