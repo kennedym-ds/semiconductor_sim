@@ -122,4 +122,3 @@ efficiency = P_max / P_in
 
 - [PN Junction Model Card](pn-junction.md) - Base diode model
 - [LED Model Card](led.md) - Inverse process (electricity → light)
-- [Theory: Photovoltaic Physics](../theory/solar-cell-theory.md)

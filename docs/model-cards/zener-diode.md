@@ -174,4 +174,3 @@ P_max = I_max * V_z  # Maximum power dissipation
 
 - [PN Junction Model Card](pn-junction.md) - Base diode structure
 - [Tunnel Diode Model Card](tunnel-diode.md) - Another quantum effect device
-- [Theory: Breakdown Mechanisms](../theory/zener-theory.md)

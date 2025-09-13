@@ -193,4 +193,3 @@ def calculate_flatband_voltage(work_function_diff=0, oxide_charge=0, C_ox=None):
 
 - [Varactor Diode Model Card](varactor-diode.md) - Alternative voltage-controlled capacitor
 - [PN Junction Model Card](pn-junction.md) - Related semiconductor junction
-- [Theory: MOS Physics](../theory/mos-capacitor-theory.md)

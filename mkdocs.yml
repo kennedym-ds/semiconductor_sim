@@ -18,6 +18,20 @@ plugins:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Model Cards: 
+    - Overview: model-cards/index.md
+    - PN Junction: model-cards/pn-junction.md
+    - LED: model-cards/led.md
+    - Solar Cell: model-cards/solar-cell.md
+    - Tunnel Diode: model-cards/tunnel-diode.md
+    - Varactor Diode: model-cards/varactor-diode.md
+    - Zener Diode: model-cards/zener-diode.md
+    - MOS Capacitor: model-cards/mos-capacitor.md
+  - Theory:
+    - Overview: theory/index.md
+    - PN Junction: theory/pn-junction-theory.md
+    - LED: theory/led-theory.md
+  - Examples Gallery: gallery/index.md
   - Examples: examples.md
   - Changelog: changelog.md
   - API: api.md

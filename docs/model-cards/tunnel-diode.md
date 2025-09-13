@@ -134,4 +134,3 @@ print(f"Peak-to-valley ratio: {current[peak_idx]/current[valley_idx]:.1f}")
 
 - [PN Junction Model Card](pn-junction.md) - Base diode structure
 - [Zener Diode Model Card](zener-diode.md) - Another breakdown mechanism
-- [Theory: Tunneling Physics](../theory/tunnel-diode-theory.md)

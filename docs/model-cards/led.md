@@ -110,4 +110,3 @@ print(f"Efficiency: {led.efficiency}")
 
 - [PN Junction Model Card](pn-junction.md) - Base diode model
 - [Solar Cell Model Card](solar-cell.md) - Reverse process (light → electricity)
-- [Theory: LED Physics](../theory/led-theory.md)

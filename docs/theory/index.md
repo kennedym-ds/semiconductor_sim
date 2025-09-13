@@ -7,13 +7,13 @@ This section provides concise theoretical background for each semiconductor devi
 ### Fundamental Devices
 - **[PN Junction Theory](pn-junction-theory.md)**: Built-in potential, current transport, temperature effects
 - **[LED Theory](led-theory.md)**: Radiative recombination, efficiency, wavelength relationships
-- **[Solar Cell Theory](solar-cell-theory.md)**: Photovoltaic effect, photocurrent generation, efficiency limits
+- **Solar Cell Theory**: Photovoltaic effect, photocurrent generation, efficiency limits (Coming Soon)
 
 ### Specialized Devices  
-- **[Tunnel Diode Theory](tunnel-diode-theory.md)**: Quantum tunneling, negative resistance, degeneracy
-- **[Varactor Theory](varactor-theory.md)**: Junction capacitance, depletion width, Q-factor
-- **[Zener Theory](zener-theory.md)**: Breakdown mechanisms, avalanche vs Zener effects
-- **[MOS Capacitor Theory](mos-capacitor-theory.md)**: Surface potential, C-V characteristics, inversion
+- **Tunnel Diode Theory**: Quantum tunneling, negative resistance, degeneracy (Coming Soon)
+- **Varactor Theory**: Junction capacitance, depletion width, Q-factor (Coming Soon)
+- **Zener Theory**: Breakdown mechanisms, avalanche vs Zener effects (Coming Soon)
+- **MOS Capacitor Theory**: Surface potential, C-V characteristics, inversion (Coming Soon)
 
 ## Physics Concepts
 

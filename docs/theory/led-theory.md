@@ -224,4 +224,4 @@ At high current densities:
 
 ---
 
-**Next:** [Solar Cell Theory](solar-cell-theory.md) | **Related:** [LED Model Card](../model-cards/led.md)
+**Next:** Solar Cell Theory (Coming Soon) | **Related:** [LED Model Card](../model-cards/led.md)

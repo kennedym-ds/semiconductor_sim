@@ -155,4 +155,3 @@ Where R_s is the series resistance (not modeled in this implementation).
 
 - [PN Junction Model Card](pn-junction.md) - Base diode structure
 - [MOS Capacitor Model Card](mos-capacitor.md) - Alternative voltage-controlled capacitor
-- [Theory: Junction Capacitance](../theory/varactor-theory.md)

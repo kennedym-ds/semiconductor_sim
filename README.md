@@ -36,13 +36,15 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 
 ## 🧪 Supported Devices
 
-- PN Junction Diode: Ideal diode with SRH recombination and temperature effects.
-- LED: Diode IV with emission intensity; simple efficiency model.
-- Solar Cell: IV under illumination; short/open-circuit conditions.
-- Tunnel Diode: Simplified IV with correct reverse-bias behavior for teaching.
-- Varactor Diode: Junction capacitance vs. reverse bias; IV characteristic.
-- Zener Diode: Breakdown behavior with optional ML-predicted Zener voltage.
-- MOS Capacitor: C–V and I–V characteristics with depletion width model.
+Each device includes comprehensive [model cards](https://kennedym-ds.github.io/semiconductor_sim/model-cards/) with detailed specifications:
+
+- **[PN Junction Diode](https://kennedym-ds.github.io/semiconductor_sim/model-cards/pn-junction/)**: Ideal diode with SRH recombination and temperature effects.
+- **[LED](https://kennedym-ds.github.io/semiconductor_sim/model-cards/led/)**: Diode IV with emission intensity; simple efficiency model.
+- **[Solar Cell](https://kennedym-ds.github.io/semiconductor_sim/model-cards/solar-cell/)**: IV under illumination; short/open-circuit conditions.
+- **[Tunnel Diode](https://kennedym-ds.github.io/semiconductor_sim/model-cards/tunnel-diode/)**: Simplified IV with correct reverse-bias behavior for teaching.
+- **[Varactor Diode](https://kennedym-ds.github.io/semiconductor_sim/model-cards/varactor-diode/)**: Junction capacitance vs. reverse bias; IV characteristic.
+- **[Zener Diode](https://kennedym-ds.github.io/semiconductor_sim/model-cards/zener-diode/)**: Breakdown behavior with optional ML-predicted Zener voltage.
+- **[MOS Capacitor](https://kennedym-ds.github.io/semiconductor_sim/model-cards/mos-capacitor/)**: C–V and I–V characteristics with depletion width model.
 
 ## 🔧 Installation
 
@@ -92,8 +94,12 @@ current, emission = led.iv_characteristic(V)
 
 ## 📓 Examples & Docs
 
-- Examples: see the `examples/` folder for scripts and Jupyter notebooks (interactive versions use ipywidgets/plotly).
-- API docs: browse module docstrings and examples until hosted docs are added.
+- **[Examples Gallery](https://kennedym-ds.github.io/semiconductor_sim/gallery/)**: Interactive examples with code snippets and visualizations
+- **[Model Cards](https://kennedym-ds.github.io/semiconductor_sim/model-cards/)**: Detailed device specifications, assumptions, and usage
+- **[Theory Documentation](https://kennedym-ds.github.io/semiconductor_sim/theory/)**: Concise physics and mathematical foundations
+- **[API Documentation](https://kennedym-ds.github.io/semiconductor_sim/api/)**: Complete method reference
+- **Examples**: See the `examples/` folder for scripts and Jupyter notebooks (interactive versions use ipywidgets/plotly)
+- **Notebooks**: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kennedym-ds/semiconductor_sim/blob/main/examples/) All notebooks include Colab/Binder badges for easy access
 
 ## 📐 Units & Conventions
 

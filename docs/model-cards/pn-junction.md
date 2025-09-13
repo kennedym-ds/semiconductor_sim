@@ -97,4 +97,3 @@ print(f"Saturation current: {diode.I_s:.2e} A")
 
 - [LED Model Card](led.md) - Extends PN junction with emission modeling
 - [Solar Cell Model Card](solar-cell.md) - PN junction under illumination
-- [Theory: PN Junction Physics](../theory/pn-junction-theory.md)
