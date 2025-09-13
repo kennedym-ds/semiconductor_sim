@@ -1,5 +1,7 @@
 # Pull Request
 
+## Summary
+
 - What does this PR change and why?
 
 ## Related Issues / Tickets
@@ -15,7 +17,7 @@
 - [ ] Tests cover new/changed code and pass locally
 - [ ] Docs updated (README/docs/model cards/examples) if applicable
 - [ ] API remains backward compatible or breaking changes documented
-- [ ] Plotting is headless-safe (uses utils.plotting helpers where applicable)
+- [ ] Plotting is headless-safe (uses `utils.plotting` helpers where applicable)
 - [ ] Packaging metadata and optional extras updated if needed
 
 ## QA Checklist (Author)
@@ -26,28 +28,10 @@
 - [ ] Security: No new Bandit high-severity findings (if applicable)
 - [ ] Performance: Benchmarks unchanged or documented (if touching numerics)
 
-## Screenshots / Artifacts (optional)
+## Artifacts (optional)
 
 - Include saved images/CSV if plotting or exporting results
 
 ## Notes for Reviewers
 
-- Assumptions, limitations, follow-ups# Pull Request
-
-## Summary
-
-Describe the change, motivation, and context.
-
-## Type of change
-
-- [ ] Fix
-- [ ] Feature
-- [ ] Docs
-- [ ] CI/CD
-
-## Checklist
-
-- [ ] Tests added/updated where appropriate
-- [ ] Lint passes (`ruff check .`)
-- [ ] Types pass (`mypy .`)
-- [ ] Docs updated (README/docs site)
+- Assumptions, limitations, follow-ups
