@@ -23,12 +23,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
           cache-dependency-path: |
             requirements.txt
+            pyprojects.toml
             pyproject.toml
 
       - name: Install dependencies
@@ -63,6 +64,18 @@ jobs:
           name: coverage-xml-${{ matrix.python-version }}
           path: coverage.xml
 
+      - name: Detect Codecov token
+        id: codecov-token
+        shell: bash
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          if [ -n "$CODECOV_TOKEN" ]; then
+            echo "has_token=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_token=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Upload coverage to Codecov
         id: codecov-oidc
         uses: codecov/codecov-action@v5
@@ -74,15 +87,13 @@ jobs:
         continue-on-error: true
 
       - name: Upload coverage to Codecov (token fallback)
-        if: steps.codecov-oidc.conclusion != 'success' && env.CODECOV_TOKEN != ''
+        if: steps.codecov-oidc.conclusion != 'success' && steps.codecov-token.outputs.has_token == 'true'
         uses: codecov/codecov-action@v5
         with:
           files: coverage.xml
           flags: unittests
           fail_ci_if_error: false
-          token: ${{ env.CODECOV_TOKEN }}
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.CODECOV_TOKEN }}
         continue-on-error: true
 
   smoke-install:
@@ -92,7 +103,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: 'pip'
@@ -126,11 +137,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: 'pip'
-          cache-dependency-path: pyproject.toml
+          cache-dependency-path: |
+            pyprojects.toml
+            pyproject.toml
       - name: Install doc tooling
         run: |
           python -m pip install --upgrade pip
