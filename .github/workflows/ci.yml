@@ -9,6 +9,9 @@ on:
 jobs:
   build-test:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -46,8 +49,7 @@ jobs:
 
       - name: Security audit (pip-audit)
         run: |
-          pip-audit -r requirements.txt || pip-audit || exit 1
-        shell: bash
+          python -m pip_audit -r requirements.txt || python -m pip_audit || exit 1
 
       - name: Run tests with coverage threshold
         run: |
@@ -62,11 +64,25 @@ jobs:
           path: coverage.xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        id: codecov-oidc
+        uses: codecov/codecov-action@v5
         with:
           files: coverage.xml
           flags: unittests
           fail_ci_if_error: false
+          use_oidc: true
+        continue-on-error: true
+
+      - name: Upload coverage to Codecov (token fallback)
+        if: steps.codecov-oidc.conclusion != 'success' && env.CODECOV_TOKEN != ''
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage.xml
+          flags: unittests
+          fail_ci_if_error: false
+          token: ${{ env.CODECOV_TOKEN }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         continue-on-error: true
 
   smoke-install:

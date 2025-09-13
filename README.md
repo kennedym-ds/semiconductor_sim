@@ -1,11 +1,18 @@
 # SemiconductorSim
 
-SemiconductorSim is an open-source Python library designed to simulate fundamental semiconductor devices, making complex semiconductor physics accessible to undergraduate students. Accompanied by interactive tutorials and comprehensive examples, this library serves as a valuable educational tool for students, educators, and enthusiasts in the fields of electronics and semiconductor engineering.
+SemiconductorSim is an open-source Python library designed to simulate
+fundamental semiconductor devices, making complex semiconductor physics
+accessible to undergraduate students. Accompanied by interactive tutorials
+and comprehensive examples, this library serves as a valuable educational tool
+for students, educators, and enthusiasts in the fields of electronics and
+semiconductor engineering.
 
 [![CI](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/ci.yml?query=branch%3Amain)
 [![CodeQL](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/codeql.yml?query=branch%3Amain)
+<!-- PyPI badge hidden until first release
 [![PyPI](https://img.shields.io/pypi/v/semiconductor-sim.svg)](https://pypi.org/project/semiconductor-sim/)
-![Python](https://img.shields.io/pypi/pyversions/semiconductor-sim.svg)
+-->
+![Python](https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12%20|%203.13-blue)
 [![License](https://img.shields.io/github/license/kennedym-ds/semiconductor_sim.svg)](LICENSE)
 [![Coverage](https://img.shields.io/codecov/c/github/kennedym-ds/semiconductor_sim?branch=main)](https://app.codecov.io/gh/kennedym-ds/semiconductor_sim)
 [![Docs](https://img.shields.io/badge/docs-mkdocs--material-blue.svg)](https://kennedym-ds.github.io/semiconductor_sim/)
@@ -92,7 +99,8 @@ current, emission = led.iv_characteristic(V)
 
 ## 📓 Examples & Docs
 
-- Examples: see the `examples/` folder for scripts and Jupyter notebooks (interactive versions use ipywidgets/plotly).
+- Examples: see the `examples/` folder for scripts and Jupyter notebooks
+  (interactive versions use ipywidgets/plotly).
 - API docs: browse module docstrings and examples until hosted docs are added.
 
 ## 📐 Units & Conventions
@@ -100,8 +108,11 @@ current, emission = led.iv_characteristic(V)
 - Length: cm; Area: cm²; Volume: cm³; Charge: C; Capacitance: F.
 - Doping and carrier concentrations: cm⁻³.
 - Temperature: K (default `DEFAULT_T = 300 K`).
-- Constants available via `semiconductor_sim.utils.constants`: `q`, `k_B`, `epsilon_0`, `DEFAULT_T`.
-- Return shapes: device `iv_characteristic` methods return arrays aligned to the input `voltage_array`. Where scalar recombination is computed, it is broadcast to match the voltage vector.
+- Constants available via `semiconductor_sim.utils.constants`: `q`, `k_B`,
+  `epsilon_0`, `DEFAULT_T`.
+- Return shapes: device `iv_characteristic` methods return arrays aligned to
+  the input `voltage_array`. Where scalar recombination is computed, it is
+  broadcast to match the voltage vector.
 
 ## 💡 Interactive Notebooks
 
