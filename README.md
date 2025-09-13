@@ -199,6 +199,21 @@ ruff check . && mypy . && pytest -q
 
 Open a PR; CI runs lint, types, tests, CodeQL, and dependency review.
 
+## ✅ Quality Checks
+
+Before opening a PR, run the core checks locally:
+
+```powershell
+ruff check .
+ruff format --check .
+mypy .
+pytest -q
+```
+
+See the detailed checklist in the PR template:
+
+- `.github/pull_request_template.md`
+
 ## 📄 License
 
 This project is licensed under the MIT License — see `LICENSE`.

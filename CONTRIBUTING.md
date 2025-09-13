@@ -70,6 +70,15 @@ Examples:
 - Build locally: `pip install mkdocs-material; mkdocs serve`
 - Docs live in `docs/`; the config is `mkdocs.yml`.
 
+## Pull Request Template
+
+Please use the project PR template to provide context and validation steps:
+
+- [PR template](.github/pull_request_template.md)
+
+It includes acceptance criteria and a QA checklist (lint, types, tests,
+headless plotting, and packaging metadata updates when needed).
+
 ## Submitting a Pull Request
 
 - Fill in the PR template with context and validation steps.
@@ -77,10 +86,22 @@ Examples:
 - Keep PRs focused and under ~400 lines of diff when possible.
 - Ensure CI passes (lint, type checks, tests).
 
+## QA Checks (Quick Reference)
+
+Run the core quality checks locally before pushing:
+
+```powershell
+ruff check .
+ruff format --check .
+mypy .
+pytest -q
+```
+
 ## Security and Dependencies
 
 - Avoid introducing heavy dependencies; prefer NumPy/SciPy.
-- If adding a dependency, justify it in the PR and update `pyproject.toml` and/or `requirements.txt`.
+- If adding a dependency, justify it in the PR and update
+  `pyproject.toml` and/or `requirements.txt`.
 - Secrets: never commit credentials. Use GitHub Secrets for CI if needed.
 
 ## Releases
