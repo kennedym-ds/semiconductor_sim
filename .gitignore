@@ -72,3 +72,9 @@ Thumbs.db
 
 # MkDocs site
 site/
+
+# ASV benchmarks
+.asv/
+
+# Hypothesis test cache
+.hypothesis/
