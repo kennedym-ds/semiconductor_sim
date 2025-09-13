@@ -1,0 +1,4 @@
+# file: /home/runner/work/semiconductor_sim/semiconductor_sim/semiconductor_sim/utils/constants.py
+# hypothesis_version: 6.138.15
+
+[1.381e-23, 1.602e-19, 8.854e-14, 300]
