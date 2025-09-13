@@ -30,6 +30,7 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 - PN Junction Diode Simulation: IV, SRH recombination, temperature dependence
 - LED Simulation: IV with emission, efficiency model, temperature effects
 - Solar Cell Simulation: IV under illumination, short/open-circuit conditions
+- BJT Simulation: Ebers-Moll model for NPN/PNP with forward active, saturation, and cutoff regions
 - Tunnel, Varactor, Zener, MOS Capacitor: teaching-focused models and plots
 - Interactive Visualizations: Jupyter widgets and Plotly/Matplotlib support
 - Documentation: API references, tutorials, and example scripts
@@ -43,6 +44,7 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 - Varactor Diode: Junction capacitance vs. reverse bias; IV characteristic.
 - Zener Diode: Breakdown behavior with optional ML-predicted Zener voltage.
 - MOS Capacitor: C–V and I–V characteristics with depletion width model.
+- BJT: Bipolar Junction Transistor with Ebers-Moll model; NPN/PNP support, temperature dependence, and SRH recombination.
 
 ## 🔧 Installation
 
@@ -88,6 +90,20 @@ from semiconductor_sim.devices import LED
 led = LED(doping_p=1e17, doping_n=1e17, temperature=300)
 V = np.linspace(0, 2, 5)
 current, emission = led.iv_characteristic(V)
+```
+
+BJT forward active characteristics (NPN and PNP):
+
+```python
+import numpy as np
+from semiconductor_sim.devices import BJT
+
+# NPN BJT
+npn = BJT(doping_emitter=1e18, doping_base=1e16, doping_collector=1e17, 
+          bjt_type="NPN", beta_f=100.0)
+V_BE = np.array([0.6, 0.7, 0.8])
+I_C, I_B, _ = npn.iv_characteristic(V_BE, v_bc=0.0)
+print("NPN β =", I_C / I_B)  # Should be ~100
 ```
 
 ## 📓 Examples & Docs
