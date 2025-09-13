@@ -6,7 +6,6 @@ from typing import Optional, Tuple, Union
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
-import matplotlib.pyplot as plt
 from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
 
 from .base import Device

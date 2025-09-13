@@ -94,6 +94,28 @@ jobs:
           print('ok', bool(d))
           PY
 
+  test-extras:
+    name: Test optional extras
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        extra: [plotting, notebooks, accel]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install with extra
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[${{ matrix.extra }}]
+      - name: Test extra functionality
+        run: |
+          python -c "import semiconductor_sim; print('Extra ${{ matrix.extra }} works')"
+
   dependency-review:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest

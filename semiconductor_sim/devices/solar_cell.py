@@ -4,7 +4,6 @@ import numpy as np
 from typing import Optional, Tuple
 from semiconductor_sim.utils import q, k_B, DEFAULT_T
 from semiconductor_sim.utils.numerics import safe_expm1
-import matplotlib.pyplot as plt
 from .base import Device
 from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
 

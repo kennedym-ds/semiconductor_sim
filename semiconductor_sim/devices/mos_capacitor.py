@@ -4,7 +4,6 @@ import numpy as np
 from typing import Optional, Union
 from semiconductor_sim.utils import q, k_B, epsilon_0, DEFAULT_T
 from semiconductor_sim.models import srh_recombination
-import matplotlib.pyplot as plt
 from .base import Device
 from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
 

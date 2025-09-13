@@ -5,7 +5,6 @@ from typing import Optional, Tuple
 from semiconductor_sim.utils import q, k_B, DEFAULT_T
 from semiconductor_sim.models import srh_recombination, radiative_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
-import matplotlib.pyplot as plt
 from .base import Device
 
 class LED(Device):

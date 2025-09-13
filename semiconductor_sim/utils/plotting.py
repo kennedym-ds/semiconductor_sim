@@ -6,7 +6,11 @@ Lightweight plotting helpers to ensure headless-safe behavior and consistent sty
 
 from typing import Optional
 
-import matplotlib
+try:
+    import matplotlib
+    _MATPLOTLIB_AVAILABLE = True
+except ImportError:
+    _MATPLOTLIB_AVAILABLE = False
 
 
 def use_headless_backend(preferred: str = "Agg") -> None:
@@ -16,6 +20,9 @@ def use_headless_backend(preferred: str = "Agg") -> None:
     Parameters:
     - preferred: Backend name to use when switching (default: 'Agg').
     """
+    if not _MATPLOTLIB_AVAILABLE:
+        return
+    
     try:
         matplotlib.use(preferred, force=True)
     except Exception:
@@ -25,6 +32,9 @@ def use_headless_backend(preferred: str = "Agg") -> None:
 
 def apply_basic_style() -> None:
     """Apply a minimal style to keep plots consistent across devices."""
+    if not _MATPLOTLIB_AVAILABLE:
+        return
+        
     try:
         import matplotlib.pyplot as plt
 

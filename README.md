@@ -52,6 +52,32 @@ Install from PyPI (recommended):
 pip install semiconductor-sim
 ```
 
+### Optional Dependencies (Extras)
+
+The package supports optional extras for different use cases:
+
+```bash
+# For plotting functionality (matplotlib, plotly)
+pip install semiconductor-sim[plotting]
+
+# For interactive notebooks (ipywidgets)
+pip install semiconductor-sim[notebooks]
+
+# For acceleration features (joblib)
+pip install semiconductor-sim[accel]
+
+# For future schema validation features
+pip install semiconductor-sim[schemas]
+
+# Install multiple extras
+pip install semiconductor-sim[plotting,notebooks]
+
+# Install all extras
+pip install semiconductor-sim[plotting,notebooks,accel,schemas]
+```
+
+**Note:** The core simulation functionality works without any extras. Plotting methods will fail gracefully if the required dependencies are not installed.
+
 From source (editable):
 
 ```bash

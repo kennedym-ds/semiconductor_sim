@@ -5,10 +5,14 @@ from semiconductor_sim.utils import q, k_B, DEFAULT_T
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
 from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
-import matplotlib.pyplot as plt
-import joblib
 import os
 from .base import Device
+
+try:
+    import joblib
+    _JOBLIB_AVAILABLE = True
+except ImportError:
+    _JOBLIB_AVAILABLE = False
 
 
 class ZenerDiode(Device):
@@ -54,6 +58,10 @@ class ZenerDiode(Device):
         """
         Load the pre-trained ML model for predicting Zener voltage.
         """
+        if not _JOBLIB_AVAILABLE:
+            print("joblib not available. Using default Zener voltage.")
+            return None
+            
         model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'models', 'zener_voltage_rf_model.pkl')
         if os.path.exists(model_path):
             model = joblib.load(model_path)
