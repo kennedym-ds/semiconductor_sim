@@ -27,12 +27,12 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 
 ## 📚 Features
 
-- PN Junction Diode Simulation: IV, SRH recombination, temperature dependence
-- LED Simulation: IV with emission, efficiency model, temperature effects
-- Solar Cell Simulation: IV under illumination, short/open-circuit conditions
-- Tunnel, Varactor, Zener, MOS Capacitor: teaching-focused models and plots
-- Interactive Visualizations: Jupyter widgets and Plotly/Matplotlib support
-- Documentation: API references, tutorials, and example scripts
+- **Device Simulation**: PN Junction Diode, LED, Solar Cell, Tunnel, Varactor, Zener, MOS Capacitor
+- **Physical Models**: SRH recombination, temperature dependence, emission models
+- **Parameter Validation**: Optional pydantic-based schemas with clear error messages ⭐ NEW
+- **Material Presets**: Pre-configured properties for Si, GaAs, Ge, GaN, InP ⭐ NEW  
+- **Interactive Visualizations**: Jupyter widgets and Plotly/Matplotlib support
+- **Educational Focus**: Teaching-oriented models with comprehensive documentation
 
 ## 🧪 Supported Devices
 
@@ -49,7 +49,11 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 Install from PyPI (recommended):
 
 ```bash
+# Standard installation
 pip install semiconductor-sim
+
+# With parameter validation and material presets
+pip install semiconductor-sim[schemas]  # ⭐ RECOMMENDED
 ```
 
 From source (editable):
@@ -66,8 +70,7 @@ pip install -e .
 
 ## 🚀 Quickstart
 
-Minimal PN junction example (no plotting required):
-
+### Traditional Approach
 ```python
 import numpy as np
 from semiconductor_sim.devices import PNJunctionDiode
@@ -79,21 +82,25 @@ print("Current:", I)
 print("Recombination (SRH):", R)
 ```
 
-LED quick preview (two-value return when concentrations omitted):
-
+### New: Material Presets ⭐
 ```python
-import numpy as np
-from semiconductor_sim.devices import LED
+from semiconductor_sim import PNJunctionDiode, LED
 
-led = LED(doping_p=1e17, doping_n=1e17, temperature=300)
-V = np.linspace(0, 2, 5)
-current, emission = led.iv_characteristic(V)
+# Create devices with realistic material properties
+si_diode = PNJunctionDiode.from_preset("Si", doping_p=1e16, doping_n=1e17)
+gaas_led = LED.from_preset("GaAs", doping_p=1e17, doping_n=1e18, efficiency=0.8)
+
+# Automatic parameter validation with helpful error messages
+V = np.linspace(0, 1, 100)
+current, emission = gaas_led.iv_characteristic(V)
 ```
 
 ## 📓 Examples & Docs
 
-- Examples: see the `examples/` folder for scripts and Jupyter notebooks (interactive versions use ipywidgets/plotly).
-- API docs: browse module docstrings and examples until hosted docs are added.
+- **Material Presets & Validation**: See [Parameter Schemas and Material Presets Guide](docs/schemas_and_presets.md) ⭐ NEW
+- **Example Scripts**: Browse the `examples/` folder for complete demonstration scripts
+- **Interactive Notebooks**: Check `examples/` for Jupyter notebooks using ipywidgets/plotly
+- **API Documentation**: Explore module docstrings and inline help until hosted docs are available
 
 ## 📐 Units & Conventions
 
