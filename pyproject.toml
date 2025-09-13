@@ -23,6 +23,17 @@ dependencies = [
 	"ipywidgets",
 	"joblib",
 ]
+
+[project.optional-dependencies]
+accel = [
+	"numba>=0.56.0",
+	"jax[cpu]>=0.4.0",
+]
+dev = [
+	"pytest",
+	"hypothesis",
+	"asv",
+]
 classifiers = [
 	"Development Status :: 3 - Alpha",
 	"Intended Audience :: Education",
