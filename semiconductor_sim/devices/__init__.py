@@ -6,7 +6,8 @@ from .solar_cell import SolarCell
 from .tunnel_diode import TunnelDiode
 from .varactor_diode import VaractorDiode
 from .zener_diode import ZenerDiode
-from .mos_capacitor import MOSCapacitor  # Add this line
+from .mos_capacitor import MOSCapacitor
+from .schottky_diode import SchottkyDiode
 from .base import Device
 
-__all__ = ['PNJunctionDiode', 'LED', 'SolarCell', 'TunnelDiode', 'VaractorDiode', 'ZenerDiode', 'MOSCapacitor', 'Device']
+__all__ = ['PNJunctionDiode', 'LED', 'SolarCell', 'TunnelDiode', 'VaractorDiode', 'ZenerDiode', 'MOSCapacitor', 'SchottkyDiode', 'Device']

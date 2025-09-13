@@ -42,6 +42,7 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 - Tunnel Diode: Simplified IV with correct reverse-bias behavior for teaching.
 - Varactor Diode: Junction capacitance vs. reverse bias; IV characteristic.
 - Zener Diode: Breakdown behavior with optional ML-predicted Zener voltage.
+- Schottky Diode: Metal-semiconductor junction with temperature-dependent thermionic emission and optional series resistance.
 - MOS Capacitor: C–V and I–V characteristics with depletion width model.
 
 ## 🔧 Installation
