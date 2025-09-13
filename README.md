@@ -17,6 +17,7 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 - Supported Devices
 - Quickstart
 - Examples & Docs
+- Command Line Interface (CLI)
 - Units & Conventions
 - Interactive Notebooks
 - Development
@@ -32,6 +33,7 @@ SemiconductorSim is an open-source Python library designed to simulate fundament
 - Solar Cell Simulation: IV under illumination, short/open-circuit conditions
 - Tunnel, Varactor, Zener, MOS Capacitor: teaching-focused models and plots
 - Interactive Visualizations: Jupyter widgets and Plotly/Matplotlib support
+- **Command Line Interface**: Generate IV/CV characteristics and parameter sweeps headlessly
 - Documentation: API references, tutorials, and example scripts
 
 ## 🧪 Supported Devices
@@ -94,6 +96,104 @@ current, emission = led.iv_characteristic(V)
 
 - Examples: see the `examples/` folder for scripts and Jupyter notebooks (interactive versions use ipywidgets/plotly).
 - API docs: browse module docstrings and examples until hosted docs are added.
+
+## 🖥️ Command Line Interface (CLI)
+
+The `semiconductor-sim` command provides a convenient CLI for quick device simulations and batch processing:
+
+### Installation & Setup
+
+After installing the package, the CLI is available as:
+
+```bash
+semiconductor-sim --help
+```
+
+### Available Commands
+
+- `iv`: Generate current-voltage characteristics
+- `cv`: Generate capacitance-voltage characteristics (capacitive devices)
+- `sweep`: Perform parameter sweeps
+
+### Quick Examples
+
+**IV Characteristics:**
+```bash
+# PN Junction
+semiconductor-sim iv pn_junction --config examples/cli_configs/pn_junction.json \
+  --output-csv pn_iv.csv --output-png pn_iv.png
+
+# LED
+semiconductor-sim iv led --config examples/cli_configs/led.json \
+  --voltage-start 0 --voltage-stop 3 --output-png led_iv.png
+```
+
+**CV Characteristics:**
+```bash
+# MOS Capacitor
+semiconductor-sim cv mos_capacitor --config examples/cli_configs/mos_capacitor.yaml \
+  --output-csv mos_cv.csv --output-png mos_cv.png
+```
+
+**Parameter Sweeps:**
+```bash
+# Temperature sweep
+semiconductor-sim sweep pn_junction --config examples/cli_configs/pn_junction.json \
+  --sweep-param temperature --sweep-start 250 --sweep-stop 350 --sweep-points 5 \
+  --output-png temp_sweep.png
+
+# Doping concentration sweep
+semiconductor-sim sweep pn_junction --config examples/cli_configs/pn_junction.json \
+  --sweep-param doping_p --sweep-start 1e16 --sweep-stop 1e18 --sweep-points 4 \
+  --output-png doping_sweep.png
+```
+
+### Configuration Files
+
+Device parameters are specified in JSON or YAML format:
+
+**JSON Example (`pn_junction.json`):**
+```json
+{
+  "doping_p": 1e17,
+  "doping_n": 1e17,
+  "area": 1e-4,
+  "temperature": 300,
+  "tau_n": 1e-6,
+  "tau_p": 1e-6
+}
+```
+
+**YAML Example (`mos_capacitor.yaml`):**
+```yaml
+doping_p: 1.0e+17
+oxide_thickness: 1.0e-6
+oxide_permittivity: 3.45
+area: 1.0e-4
+temperature: 300
+```
+
+### Device Types & Parameters
+
+- `pn_junction`: PN Junction Diode
+- `led`: Light Emitting Diode  
+- `solar_cell`: Solar Cell
+- `zener`: Zener Diode
+- `mos_capacitor`: MOS Capacitor
+- `tunnel_diode`: Tunnel Diode
+- `varactor`: Varactor Diode
+
+See `examples/cli_configs/` for sample configuration files for each device type.
+
+### Demo Script
+
+Run the complete CLI demo:
+
+```bash
+bash examples/cli_demo.sh
+```
+
+This generates example outputs for all device types and demonstrates the CLI capabilities.
 
 ## 📐 Units & Conventions
 
