@@ -1,8 +1,11 @@
 # tests/test_pn_junction.py
 
 import unittest
+
 import numpy as np
+
 from semiconductor_sim import PNJunctionDiode
+
 
 class TestPNJunctionDiode(unittest.TestCase):
     def test_saturation_current(self):
@@ -21,6 +24,7 @@ class TestPNJunctionDiode(unittest.TestCase):
         voltage = np.array([-0.1, -0.2, -0.3])
         current, recombination = diode.iv_characteristic(voltage, n_conc=1e16, p_conc=1e16)
         self.assertTrue(np.all(current < 0), "Current should be negative for reverse bias")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,11 +1,11 @@
 # examples/example_led.py
 
 import numpy as np
+
 from semiconductor_sim import LED
 
-def main():
-    import plotly.graph_objects as go
 
+def main():
     # Define voltage range
     voltage = np.linspace(-0.5, 0.7, 200)
 
@@ -21,6 +21,7 @@ def main():
 
     # Plot IV characteristics with recombination and emission
     led.plot_iv_characteristic(voltage, current, emission, recombination)
+
 
 if __name__ == "__main__":
     main()

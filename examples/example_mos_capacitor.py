@@ -1,7 +1,9 @@
 # examples/example_mos_capacitor.py
 
 import numpy as np
+
 from semiconductor_sim import MOSCapacitor
+
 
 def main():
     # Define voltage range for IV characteristics
@@ -13,9 +15,9 @@ def main():
     # Initialize the MOS Capacitor with doping concentrations, oxide thickness, and temperature
     mos = MOSCapacitor(
         doping_p=1e17,
-        oxide_thickness=1e-6,    # 1 micron
-        oxide_permittivity=3.45, # Relative permittivity for SiO2
-        temperature=300
+        oxide_thickness=1e-6,  # 1 micron
+        oxide_permittivity=3.45,  # Relative permittivity for SiO2
+        temperature=300,
     )
 
     # Assume constant carrier concentrations
@@ -30,6 +32,7 @@ def main():
 
     # Calculate and plot C-V characteristics
     mos.plot_capacitance_vs_voltage(voltage_cv)
+
 
 if __name__ == "__main__":
     main()

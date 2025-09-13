@@ -1,0 +1,20 @@
+# Dev requirements for working on this repo
+# Base runtime deps
+-r requirements.txt
+
+# Tooling
+pre-commit
+ruff
+mypy
+pytest
+coverage
+pip-audit
+hypothesis
+
+# Docs
+mkdocs-material
+mkdocstrings
+mkdocstrings-python
+
+# Packaging
+build

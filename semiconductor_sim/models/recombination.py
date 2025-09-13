@@ -1,8 +1,9 @@
 """Recombination models."""
 
-from typing import Union, Optional
+from typing import Optional, Union
 
 import numpy as np
+
 from semiconductor_sim.utils import DEFAULT_T
 
 

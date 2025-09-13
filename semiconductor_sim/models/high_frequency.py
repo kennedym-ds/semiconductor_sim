@@ -2,6 +2,7 @@
 
 import numpy as np
 
+
 def high_frequency_capacitance(C_dc, f, R=1000):
     """
     Calculate the high-frequency capacitance using the voltage-dependent capacitance.
@@ -15,5 +16,5 @@ def high_frequency_capacitance(C_dc, f, R=1000):
         C_ac (float or np.ndarray): AC capacitance (F)
     """
     omega = 2 * np.pi * f
-    C_ac = C_dc / np.sqrt(1 + (omega * R * C_dc)**2)
+    C_ac = C_dc / np.sqrt(1 + (omega * R * C_dc) ** 2)
     return C_ac

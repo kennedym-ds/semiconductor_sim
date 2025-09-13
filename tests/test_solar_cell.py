@@ -1,8 +1,11 @@
 # tests/test_solar_cell.py
 
 import unittest
+
 import numpy as np
+
 from semiconductor_sim import SolarCell
+
 
 class TestSolarCell(unittest.TestCase):
     def test_short_circuit_current(self):
@@ -18,6 +21,7 @@ class TestSolarCell(unittest.TestCase):
         voltage = np.array([0.0, 0.4, 0.8])
         (current,) = solar.iv_characteristic(voltage)
         self.assertEqual(len(current), len(voltage), "Current array length mismatch")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,14 @@
+[run]
+branch = True
+source =
+    semiconductor_sim
+omit =
+    tests/*
+    setup.py
+    build/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.
+show_missing = True

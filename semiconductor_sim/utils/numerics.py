@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from typing import cast
+
 import numpy as np
 import numpy.typing as npt
-from typing import Union, cast
 
-def safe_expm1(x: Union[np.ndarray, float], max_arg: float = 700.0) -> npt.NDArray[np.float64]:
+
+def safe_expm1(x: np.ndarray | float, max_arg: float = 700.0) -> npt.NDArray[np.float64]:
     """
     Compute exp(x) - 1 safely for arrays or scalars by clipping the argument to
     avoid overflow and using numpy.expm1 for better precision near zero.

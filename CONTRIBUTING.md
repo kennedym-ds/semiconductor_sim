@@ -1,15 +1,19 @@
 # Contributing to SemiconductorSim
 
-Thank you for helping improve SemiconductorSim! Contributions of all kinds are welcome — bug reports, feature requests, docs, tests, and code.
+Thank you for helping improve SemiconductorSim! Contributions of all kinds are
+welcome — bug reports, feature requests, docs, tests, and code.
 
 ## Quick Start (Windows PowerShell)
 
-- Clone your fork: `git clone https://github.com/<your-username>/semiconductor_sim.git; cd semiconductor_sim`
+- Clone your fork:
+  `git clone https://github.com/<your-username>/semiconductor_sim.git; \
+  cd semiconductor_sim`
 - Create and activate a virtual environment:
   - `python -m venv .venv; .\.venv\\Scripts\\Activate.ps1`
 - Install the package and dev tools:
-  - `pip install -e .[dev]` (falls back to `pip install -r requirements.txt` if extras are unavailable)
-  - `pip install -r requirements.txt`
+  - Preferred: `pip install -e .[dev]`
+  - Or: `pip install -r requirements-dev.txt` then `pip install -e .`
+  - Minimal runtime only (no dev tools): `pip install -r requirements.txt`
   - Optionally: `pip install pre-commit`
 - Enable pre-commit hooks: `pre-commit install`
 - Run tests: `pytest -q`
@@ -19,7 +23,7 @@ Thank you for helping improve SemiconductorSim! Contributions of all kinds are w
 1. Create a branch: `git checkout -b feature/<short-desc>` or `fix/<short-desc>`
 2. Make focused changes with tests where applicable.
 3. Lint and type-check locally: `ruff check .; mypy semiconductor_sim`
-4. Run tests with coverage: `pytest --maxfail=1 --disable-warnings -q`
+4. Run tests with coverage: `coverage run -m pytest -q; coverage report`
 5. Commit using Conventional Commits (see below) and open a PR.
 
 ## Conventional Commits
@@ -43,11 +47,14 @@ Examples:
 
 ## Code Style and Quality
 
-- Formatting/linting: Ruff (`ruff.toml` defines rules). Run `ruff check .` and `ruff format .`.
+- Formatting/linting: Ruff (`ruff.toml` defines rules). Run `ruff check .` and
+  `ruff format .`.
 - Types: Mypy (`mypy.ini`). Prefer precise types and avoid `Any` where feasible.
 - Tests: Pytest (`pytest.ini`). Place tests in `tests/` and keep them fast and deterministic.
-- Plotting: Ensure non-interactive backends (Agg) for CI; avoid GUI-only calls in library code.
-- Public API: Maintain backward compatibility or document breaking changes clearly in the changelog and PR.
+- Plotting: Ensure non-interactive backends (Agg) for CI; avoid GUI-only calls
+  in library code.
+- Public API: Maintain backward compatibility or document breaking changes
+  clearly in the changelog and PR.
 
 ## Project Structure
 
@@ -96,6 +103,49 @@ ruff format --check .
 mypy .
 pytest -q
 ```
+
+## Git Hooks (pre-commit / pre-push)
+
+This repo includes hooks that mirror CI checks to catch issues before they
+hit the pipeline.
+
+- Install once: `pip install pre-commit`; then `pre-commit install`
+- Also enable pre-push hooks: `pre-commit install --hook-type pre-push`
+- Run on all files: `pre-commit run --all-files`
+
+Pre-push runs tests, docs build (strict), pip-audit, and a smoke import. If a
+hook fails, fix the issues and re-run.
+
+Required local tools for pre-push hooks:
+
+- coverage: `pip install coverage`
+- docs: `pip install mkdocs-material mkdocstrings mkdocstrings-python`
+- security: `pip install pip-audit`
+
+Alternatively, install all dev tooling:
+
+```powershell
+pip install pre-commit ruff mypy pytest coverage
+pip install mkdocs-material mkdocstrings mkdocstrings-python pip-audit
+```
+
+## VS Code Tasks (using .venv)
+
+This repo ships workspace tasks under `.vscode/tasks.json` that use the
+local virtual environment explicitly.
+
+- Open the Command Palette → "Run Task" and pick one of:
+  - `venv: install dev` — install `requirements-dev.txt` and the package
+    in editable mode
+  - `venv: lint (ruff)` — run linting
+  - `venv: types (mypy)` — run type checks
+  - `venv: test + coverage` — run tests with coverage gate (80%)
+  - `venv: docs (strict)` — build docs in strict mode
+  - `venv: security audit` — run `pip-audit`
+  - `venv: pre-commit (all files)` — run all hooks
+  - `venv: build package` — build sdist/wheel with `python -m build`
+
+These tasks assume Windows PowerShell and a `.venv` in the project root.
 
 ## Security and Dependencies
 

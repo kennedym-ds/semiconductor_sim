@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Optional, Tuple
 
 import numpy as np
 
@@ -28,9 +27,9 @@ class Device(ABC):
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[float | np.ndarray] = None,
-        p_conc: Optional[float | np.ndarray] = None,
-    ) -> Tuple[np.ndarray, ...]:
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, ...]:
         """
         Compute current vs. voltage. Implementations must return a tuple where the
         first element is the current array, and optional subsequent arrays include

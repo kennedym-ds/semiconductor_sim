@@ -1,17 +1,77 @@
+exclude: |
+  ^(
+    \.venv/|
+    build/|
+    dist/|
+    semiconductor_sim\.egg-info/|
+    \.hypothesis/|
+    \.mypy_cache/|
+    \.pytest_cache/
+  )
+
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.4
+    rev: v0.6.9
     hooks:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
+
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.11.2
     hooks:
       - id: mypy
-        additional_dependencies: []
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+        args: ["semiconductor_sim", "tests"]
+        pass_filenames: false
+
+  # Local hooks to mirror CI on push
+  - repo: local
     hooks:
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
+      - id: pytest-coverage-run
+        name: Run pytest with coverage (pre-push)
+        entry: .\\.venv\\Scripts\\python.exe
+        args: ["-m", "coverage", "run", "-m", "pytest", "-q"]
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: coverage-threshold
+        name: Enforce coverage >= 80% (pre-push)
+        entry: .\\.venv\\Scripts\\python.exe
+        args: ["-m", "coverage", "report", "--fail-under=80"]
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: docs-build
+        name: Build docs strictly (pre-push)
+        entry: .\\.venv\\Scripts\\python.exe
+        args: ["-m", "mkdocs", "build", "--strict"]
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: pip-audit
+        name: pip-audit requirements (pre-push)
+        entry: .\\.venv\\Scripts\\python.exe
+        args: ["-m", "pip_audit", "-r", "requirements.txt"]
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: smoke-import
+        name: Smoke import (pre-push)
+        entry: .\\.venv\\Scripts\\python.exe
+        args: ["-c", "import semiconductor_sim; from semiconductor_sim.devices import PNJunctionDiode; PNJunctionDiode(doping_p=1e17, doping_n=1e17, temperature=300); print('ok')"]
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

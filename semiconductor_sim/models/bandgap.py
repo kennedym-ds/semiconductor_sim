@@ -1,6 +1,5 @@
 # semiconductor_sim/models/bandgap.py
 
-import numpy as np
 
 def temperature_dependent_bandgap(T, E_g0=1.12, alpha=4.73e-4, beta=636):
     """

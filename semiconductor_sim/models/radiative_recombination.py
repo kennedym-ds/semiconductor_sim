@@ -1,8 +1,11 @@
 # semiconductor_sim/models/radiative_recombination.py
 
-import numpy as np
 from typing import Union
+
+import numpy as np
+
 from semiconductor_sim.utils import DEFAULT_T
+
 
 def radiative_recombination(
     n: Union[float, np.ndarray],

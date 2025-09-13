@@ -1,7 +1,7 @@
 # verify_installation.py
 
 import semiconductor_sim
-from semiconductor_sim.utils import q, k_B, DEFAULT_T
+from semiconductor_sim.utils import DEFAULT_T, k_B, q
 
 print(f"Package version: {semiconductor_sim.__version__}")
 print(f"Elementary charge (q): {q} C")

@@ -1,8 +1,11 @@
 # tests/test_led.py
 
 import unittest
+
 import numpy as np
+
 from semiconductor_sim import LED
+
 
 class TestLED(unittest.TestCase):
     def test_saturation_current(self):
@@ -21,6 +24,7 @@ class TestLED(unittest.TestCase):
         voltage = np.array([0.0, 0.5, 1.0])
         current, emission = led.iv_characteristic(voltage)
         self.assertTrue(np.all(emission <= current), "Emission should not exceed total current")
+
 
 if __name__ == '__main__':
     unittest.main()

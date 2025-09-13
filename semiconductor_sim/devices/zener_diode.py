@@ -1,18 +1,30 @@
 # semiconductor_sim/devices/zener_diode.py
 
-import numpy as np
-from semiconductor_sim.utils import q, k_B, DEFAULT_T
-from semiconductor_sim.models import srh_recombination
-from semiconductor_sim.utils.numerics import safe_expm1
-from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
-import matplotlib.pyplot as plt
-import joblib
 import os
+
+import joblib
+import matplotlib.pyplot as plt
+import numpy as np
+
+from semiconductor_sim.models import srh_recombination
+from semiconductor_sim.utils import DEFAULT_T, k_B, q
+from semiconductor_sim.utils.numerics import safe_expm1
+from semiconductor_sim.utils.plotting import apply_basic_style, use_headless_backend
+
 from .base import Device
 
 
 class ZenerDiode(Device):
-    def __init__(self, doping_p, doping_n, area=1e-4, zener_voltage=5.0, temperature=300, tau_n=1e-6, tau_p=1e-6):
+    def __init__(
+        self,
+        doping_p,
+        doping_n,
+        area=1e-4,
+        zener_voltage=5.0,
+        temperature=300,
+        tau_n=1e-6,
+        tau_p=1e-6,
+    ):
         """
         Initialize the Zener Diode.
 
@@ -42,11 +54,10 @@ class ZenerDiode(Device):
         D_p = 10  # Hole diffusion coefficient (cm^2/s)
         L_n = 5e-4  # Electron diffusion length (cm)
         L_p = 5e-4  # Hole diffusion length (cm)
-        n_i = 1.5e10 * (self.temperature / DEFAULT_T)**1.5  # Intrinsic carrier concentration
+        n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5  # Intrinsic carrier concentration
 
-        I_s = q * self.area * n_i**2 * (
-            (D_p / (L_p * self.doping_n)) +
-            (D_n / (L_n * self.doping_p))
+        I_s = (
+            q * self.area * n_i**2 * ((D_p / (L_p * self.doping_n)) + (D_n / (L_n * self.doping_p)))
         )
         return I_s
 
@@ -54,7 +65,9 @@ class ZenerDiode(Device):
         """
         Load the pre-trained ML model for predicting Zener voltage.
         """
-        model_path = os.path.join(os.path.dirname(__file__), '..', '..', 'models', 'zener_voltage_rf_model.pkl')
+        model_path = os.path.join(
+            os.path.dirname(__file__), '..', '..', 'models', 'zener_voltage_rf_model.pkl'
+        )
         if os.path.exists(model_path):
             model = joblib.load(model_path)
             return model
@@ -91,7 +104,7 @@ class ZenerDiode(Device):
         """
         # Update Zener voltage prediction
         self.zener_voltage = self.predict_zener_voltage()
-        
+
         V_T = k_B * self.temperature / q  # Thermal voltage
         I = self.I_s * safe_expm1(voltage_array / V_T)
 
@@ -104,7 +117,9 @@ class ZenerDiode(Device):
         I += I_breakdown
 
         if n_conc is not None and p_conc is not None:
-            R_SRH = srh_recombination(n_conc, p_conc, temperature=self.temperature, tau_n=self.tau_n, tau_p=self.tau_p)
+            R_SRH = srh_recombination(
+                n_conc, p_conc, temperature=self.temperature, tau_n=self.tau_n, tau_p=self.tau_p
+            )
             R_SRH = np.broadcast_to(R_SRH, np.shape(voltage_array))
         else:
             R_SRH = np.zeros_like(voltage_array)
@@ -122,7 +137,7 @@ class ZenerDiode(Device):
         """
         use_headless_backend("Agg")
         apply_basic_style()
-        fig, ax1 = plt.subplots(figsize=(8,6))
+        fig, ax1 = plt.subplots(figsize=(8, 6))
 
         color = 'tab:blue'
         ax1.set_xlabel('Voltage (V)')

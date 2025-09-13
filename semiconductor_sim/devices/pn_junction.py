@@ -1,13 +1,14 @@
 """PN Junction diode device model."""
 
-import numpy as np
 from typing import Optional, Tuple, Union
 
-from semiconductor_sim.utils import DEFAULT_T, k_B, q
-from semiconductor_sim.models import srh_recombination
-from semiconductor_sim.utils.numerics import safe_expm1
 import matplotlib.pyplot as plt
-from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
+import numpy as np
+
+from semiconductor_sim.models import srh_recombination
+from semiconductor_sim.utils import DEFAULT_T, k_B, q
+from semiconductor_sim.utils.numerics import safe_expm1
+from semiconductor_sim.utils.plotting import apply_basic_style, use_headless_backend
 
 from .base import Device
 
@@ -21,6 +22,7 @@ class PNJunctionDiode(Device):
     - Default transport parameters (D, L) are representative constants
     - Units: cm, cm^2, cm^3, K; q in C, k_B in J/K
     """
+
     def __init__(
         self,
         doping_p: float,
@@ -60,8 +62,11 @@ class PNJunctionDiode(Device):
         """Calculate the saturation current (I_s) considering temperature."""
         # Intrinsic carrier concentration with temperature dependence
         n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
-        I_s = q * self.area * n_i**2 * (
-            (self.D_p / (self.L_p * self.doping_n)) + (self.D_n / (self.L_n * self.doping_p))
+        I_s = (
+            q
+            * self.area
+            * n_i**2
+            * ((self.D_p / (self.L_p * self.doping_n)) + (self.D_n / (self.L_n * self.doping_p)))
         )
         return float(I_s)
 
@@ -97,11 +102,14 @@ class PNJunctionDiode(Device):
 
     def __repr__(self) -> str:
         return (
-            f"PNJunctionDiode(doping_p={self.doping_p}, doping_n={self.doping_n}, area={self.area}, "
-            f"temperature={self.temperature}, tau_n={self.tau_n}, tau_p={self.tau_p})"
+            f"PNJunctionDiode(doping_p={self.doping_p}, doping_n={self.doping_n}, "
+            f"area={self.area}, temperature={self.temperature}, tau_n={self.tau_n}, "
+            f"tau_p={self.tau_p})"
         )
 
-    def plot_iv_characteristic(self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None) -> None:
+    def plot_iv_characteristic(
+        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+    ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")
         apply_basic_style()

@@ -1,12 +1,15 @@
 # semiconductor_sim/devices/led.py
 
-import numpy as np
 from typing import Optional, Tuple
-from semiconductor_sim.utils import q, k_B, DEFAULT_T
-from semiconductor_sim.models import srh_recombination, radiative_recombination
+
+import numpy as np
+
+from semiconductor_sim.models import radiative_recombination, srh_recombination
+from semiconductor_sim.utils import DEFAULT_T, k_B, q
 from semiconductor_sim.utils.numerics import safe_expm1
-import matplotlib.pyplot as plt
+
 from .base import Device
+
 
 class LED(Device):
     """Light-emitting diode (LED) model.
@@ -17,6 +20,7 @@ class LED(Device):
     - Default transport parameters (D, L) represent typical pedagogical values
     - Units: cm, cm^2, cm^3, K; q in C, k_B in J/K
     """
+
     def __init__(
         self,
         doping_p: float,
@@ -62,8 +66,11 @@ class LED(Device):
             float: The saturation current in amperes.
         """
         n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
-        I_s = q * self.area * n_i**2 * (
-            (self.D_p / (self.L_p * self.doping_n)) + (self.D_n / (self.L_n * self.doping_p))
+        I_s = (
+            q
+            * self.area
+            * n_i**2
+            * ((self.D_p / (self.L_p * self.doping_n)) + (self.D_n / (self.L_n * self.doping_p)))
         )
         return float(I_s)
 
@@ -82,9 +89,10 @@ class LED(Device):
                 SRH and radiative recombination are computed and emission includes radiative term.
             p_conc: Hole concentration (cm^-3).
 
-        Returns:
-            - If both `n_conc` and `p_conc` are provided: `(I, emission, R_SRH)` where each is `np.ndarray`.
-            - Else: `(I, emission)` where both are `np.ndarray`.
+                Returns:
+                        - If both `n_conc` and `p_conc` are provided:
+                            `(I, emission, R_SRH)` where each is `np.ndarray`.
+                        - Else: `(I, emission)` where both are `np.ndarray`.
         """
         V_T = k_B * self.temperature / q  # Thermal voltage
         I = self.I_s * safe_expm1(voltage_array / V_T)
@@ -142,16 +150,43 @@ class LED(Device):
         )
 
         # IV Plot
-        fig.add_trace(go.Scatter(x=voltage, y=current, mode='lines', name='IV Characteristic',
-                                 line=dict(color='blue')), row=1, col=1)
+        fig.add_trace(
+            go.Scatter(
+                x=voltage,
+                y=current,
+                mode='lines',
+                name='IV Characteristic',
+                line=dict(color='blue'),
+            ),
+            row=1,
+            col=1,
+        )
         if recombination is not None:
-            fig.add_trace(go.Scatter(x=voltage, y=recombination, mode='lines',
-                                     name='SRH Recombination', line=dict(color='green', dash='dash')), row=1, col=1)
+            fig.add_trace(
+                go.Scatter(
+                    x=voltage,
+                    y=recombination,
+                    mode='lines',
+                    name='SRH Recombination',
+                    line=dict(color='green', dash='dash'),
+                ),
+                row=1,
+                col=1,
+            )
 
         # Emission Plot (Secondary y-axis)
         if emission is not None:
-            fig.add_trace(go.Scatter(x=voltage, y=emission, mode='lines',
-                                     name='Emission', line=dict(color='red', dash='dot')), row=1, col=1)
+            fig.add_trace(
+                go.Scatter(
+                    x=voltage,
+                    y=emission,
+                    mode='lines',
+                    name='Emission',
+                    line=dict(color='red', dash='dot'),
+                ),
+                row=1,
+                col=1,
+            )
 
         # Second subplot shows emission and/or recombination if provided
         if emission is not None:
@@ -161,7 +196,7 @@ class LED(Device):
                     y=emission,
                     mode='lines',
                     name='Emission',
-                    line=dict(color='red', dash='dot')
+                    line=dict(color='red', dash='dot'),
                 ),
                 row=2,
                 col=1,
@@ -173,7 +208,7 @@ class LED(Device):
                     y=recombination,
                     mode='lines',
                     name='SRH Recombination',
-                    line=dict(color='green', dash='dash')
+                    line=dict(color='green', dash='dash'),
                 ),
                 row=2,
                 col=1,

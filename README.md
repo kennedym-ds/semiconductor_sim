@@ -2,12 +2,12 @@
 
 SemiconductorSim is an open-source Python library designed to simulate fundamental semiconductor devices, making complex semiconductor physics accessible to undergraduate students. Accompanied by interactive tutorials and comprehensive examples, this library serves as a valuable educational tool for students, educators, and enthusiasts in the fields of electronics and semiconductor engineering.
 
-![CI](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/ci.yml/badge.svg)
-![CodeQL](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/codeql.yml/badge.svg)
+[![CI](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/ci.yml?query=branch%3Amain)
+[![CodeQL](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/kennedym-ds/semiconductor_sim/actions/workflows/codeql.yml?query=branch%3Amain)
 [![PyPI](https://img.shields.io/pypi/v/semiconductor-sim.svg)](https://pypi.org/project/semiconductor-sim/)
 ![Python](https://img.shields.io/pypi/pyversions/semiconductor-sim.svg)
-![License](https://img.shields.io/github/license/kennedym-ds/semiconductor_sim.svg)
-[![Coverage](https://codecov.io/gh/kennedym-ds/semiconductor_sim/branch/main/graph/badge.svg)](https://codecov.io/gh/kennedym-ds/semiconductor_sim)
+[![License](https://img.shields.io/github/license/kennedym-ds/semiconductor_sim.svg)](LICENSE)
+[![Coverage](https://img.shields.io/codecov/c/github/kennedym-ds/semiconductor_sim?branch=main)](https://app.codecov.io/gh/kennedym-ds/semiconductor_sim)
 [![Docs](https://img.shields.io/badge/docs-mkdocs--material-blue.svg)](https://kennedym-ds.github.io/semiconductor_sim/)
 
 ## 🧭 Table of Contents

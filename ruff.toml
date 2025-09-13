@@ -1,11 +1,33 @@
 line-length = 100
+exclude = [
+	"**/*.ipynb",
+	".venv",
+	"build",
+	"dist",
+	"semiconductor_sim.egg-info",
+	".hypothesis",
+	".mypy_cache",
+	".pytest_cache",
+]
+
+[lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "PL"]
-ignore = []
+ignore = [
+	# Allow short math-like names in code/tests
+	"E741",
+	# Allow many args in our public constructors for now
+	"PLR0913",
+]
+
+[lint.per-file-ignores]
+"examples/**" = ["E501", "F401", "F841", "E402"]
+"tests/**" = ["E501", "E741"]
+"semiconductor_sim/utils/plotting.py" = ["E402"]
 
 [format]
 quote-style = "preserve"
 indent-style = "space"
 
-[isort]
+[lint.isort]
 combine-as-imports = true
 force-single-line = false

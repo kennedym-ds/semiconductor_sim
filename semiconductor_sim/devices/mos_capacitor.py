@@ -1,16 +1,28 @@
 """MOS capacitor device model."""
 
-import numpy as np
 from typing import Optional, Union
-from semiconductor_sim.utils import q, k_B, epsilon_0, DEFAULT_T
-from semiconductor_sim.models import srh_recombination
+
 import matplotlib.pyplot as plt
+import numpy as np
+
+from semiconductor_sim.models import srh_recombination
+from semiconductor_sim.utils import DEFAULT_T, epsilon_0, k_B, q
+from semiconductor_sim.utils.plotting import apply_basic_style, use_headless_backend
+
 from .base import Device
-from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
 
 
 class MOSCapacitor(Device):
-    def __init__(self, doping_p: float, oxide_thickness: float = 1e-6, oxide_permittivity: float = 3.45, area: float = 1e-4, temperature: float = DEFAULT_T, tau_n: float = 1e-6, tau_p: float = 1e-6):
+    def __init__(
+        self,
+        doping_p: float,
+        oxide_thickness: float = 1e-6,
+        oxide_permittivity: float = 3.45,
+        area: float = 1e-4,
+        temperature: float = DEFAULT_T,
+        tau_n: float = 1e-6,
+        tau_p: float = 1e-6,
+    ):
         """
         Initialize the MOS Capacitor.
 
@@ -87,7 +99,7 @@ class MOSCapacitor(Device):
         capacitance = self.capacitance(voltage)
         use_headless_backend("Agg")
         apply_basic_style()
-        plt.figure(figsize=(8,6))
+        plt.figure(figsize=(8, 6))
         plt.plot(voltage, capacitance, label='C-V Characteristic')
         plt.title('MOS Capacitor C-V Characteristics')
         plt.xlabel('Gate Voltage (V)')
@@ -96,11 +108,13 @@ class MOSCapacitor(Device):
         plt.legend()
         plt.show()
 
-    def plot_iv_characteristic(self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None) -> None:
+    def plot_iv_characteristic(
+        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+    ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")
         apply_basic_style()
-        fig, ax1 = plt.subplots(figsize=(8,6))
+        fig, ax1 = plt.subplots(figsize=(8, 6))
 
         color = 'tab:blue'
         ax1.set_xlabel('Voltage (V)')

@@ -1,12 +1,15 @@
 # semiconductor_sim/devices/solar_cell.py
 
-import numpy as np
 from typing import Optional, Tuple
-from semiconductor_sim.utils import q, k_B, DEFAULT_T
-from semiconductor_sim.utils.numerics import safe_expm1
+
 import matplotlib.pyplot as plt
+import numpy as np
+
+from semiconductor_sim.utils import DEFAULT_T, k_B, q
+from semiconductor_sim.utils.numerics import safe_expm1
+from semiconductor_sim.utils.plotting import apply_basic_style, use_headless_backend
+
 from .base import Device
-from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
 
 
 class SolarCell(Device):
@@ -67,9 +70,7 @@ class SolarCell(Device):
             Tuple containing one element:
             - current_array (np.ndarray): Array of current values (A)
         """
-        I = self.I_sc - 1e-12 * safe_expm1(
-            voltage_array / (k_B * self.temperature / q)
-        )
+        I = self.I_sc - 1e-12 * safe_expm1(voltage_array / (k_B * self.temperature / q))
         return (np.asarray(I),)
 
     def plot_iv_characteristic(self, voltage, current):
@@ -82,7 +83,7 @@ class SolarCell(Device):
         """
         use_headless_backend("Agg")
         apply_basic_style()
-        plt.figure(figsize=(8,6))
+        plt.figure(figsize=(8, 6))
         plt.plot(voltage, current, label='Solar Cell IV')
         plt.title('Solar Cell IV Characteristics')
         plt.xlabel('Voltage (V)')
