@@ -3,6 +3,10 @@
 import numpy as np
 from typing import Optional, Tuple
 from semiconductor_sim.utils import q, k_B, DEFAULT_T
+from semiconductor_sim.utils import (
+    intrinsic_carrier_concentration,
+    diffusion_coefficient_temperature,
+)
 from semiconductor_sim.models import srh_recombination, radiative_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
 import matplotlib.pyplot as plt
@@ -14,7 +18,8 @@ class LED(Device):
     Assumptions:
     - Ideal diode IV: I = I_s * (exp(V/V_T) - 1)
     - Emission ~ efficiency * radiative_recombination * area (simplified)
-    - Default transport parameters (D, L) represent typical pedagogical values
+    - Improved temperature dependencies for carrier concentration and mobility
+    - Optional parasitics: series resistance R_s and shunt resistance R_sh
     - Units: cm, cm^2, cm^3, K; q in C, k_B in J/K
     """
     def __init__(
@@ -29,6 +34,9 @@ class LED(Device):
         D_p: float = 10.0,
         L_n: float = 5e-4,
         L_p: float = 5e-4,
+        R_s: float = 0.0,
+        R_sh: float = np.inf,
+        enable_parasitics: bool = False,
     ) -> None:
         """
         Initialize the LED device.
@@ -40,30 +48,43 @@ class LED(Device):
             efficiency (float): Radiative recombination efficiency (0 to 1)
             temperature (float): Temperature in Kelvin
             B (float): Radiative recombination coefficient (cm^3/s)
+            D_n: Electron diffusion coefficient at reference temperature (cm^2/s)
+            D_p: Hole diffusion coefficient at reference temperature (cm^2/s)
+            L_n: Electron diffusion length (cm)
+            L_p: Hole diffusion length (cm)
+            R_s: Series resistance (Ω)
+            R_sh: Shunt resistance (Ω)
+            enable_parasitics: Enable parasitic effects
         """
-        super().__init__(area=area, temperature=temperature)
+        super().__init__(area=area, temperature=temperature, R_s=R_s, R_sh=R_sh, enable_parasitics=enable_parasitics)
         if not (0.0 <= efficiency <= 1.0):
             raise ValueError("efficiency must be between 0 and 1")
         self.doping_p = float(doping_p)
         self.doping_n = float(doping_n)
         self.efficiency = float(efficiency)
         self.B = float(B)  # Radiative recombination coefficient
-        self.D_n = float(D_n)
-        self.D_p = float(D_p)
+        self.D_n_ref = float(D_n)
+        self.D_p_ref = float(D_p)
         self.L_n = float(L_n)
         self.L_p = float(L_p)
         self.I_s = self.calculate_saturation_current()
 
     def calculate_saturation_current(self) -> float:
         """
-        Calculate the saturation current (I_s) considering temperature.
+        Calculate the saturation current (I_s) with improved temperature dependence.
 
         Returns:
             float: The saturation current in amperes.
         """
-        n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
+        # Improved intrinsic carrier concentration with temperature-dependent bandgap
+        n_i = intrinsic_carrier_concentration(self.temperature)
+        
+        # Temperature-dependent diffusion coefficients
+        D_n = diffusion_coefficient_temperature(self.temperature, self.D_n_ref)
+        D_p = diffusion_coefficient_temperature(self.temperature, self.D_p_ref)
+        
         I_s = q * self.area * n_i**2 * (
-            (self.D_p / (self.L_p * self.doping_n)) + (self.D_n / (self.L_n * self.doping_p))
+            (D_p / (self.L_p * self.doping_n)) + (D_n / (self.L_n * self.doping_p))
         )
         return float(I_s)
 
@@ -87,7 +108,13 @@ class LED(Device):
             - Else: `(I, emission)` where both are `np.ndarray`.
         """
         V_T = k_B * self.temperature / q  # Thermal voltage
-        I = self.I_s * safe_expm1(voltage_array / V_T)
+        I_ideal = self.I_s * safe_expm1(voltage_array / V_T)
+
+        # Apply parasitics if enabled
+        if self.enable_parasitics:
+            I = self._apply_parasitics(voltage_array, I_ideal)
+        else:
+            I = I_ideal
 
         if n_conc is not None and p_conc is not None:
             R_SRH = srh_recombination(
@@ -183,7 +210,47 @@ class LED(Device):
         fig.show()
 
     def __repr__(self) -> str:
+        parasitic_str = f", R_s={self.R_s}, R_sh={self.R_sh}, enable_parasitics={self.enable_parasitics}" if self.enable_parasitics else ""
         return (
             f"LED(doping_p={self.doping_p}, doping_n={self.doping_n}, area={self.area}, "
-            f"efficiency={self.efficiency}, temperature={self.temperature}, B={self.B})"
+            f"efficiency={self.efficiency}, temperature={self.temperature}, B={self.B}{parasitic_str})"
         )
+
+    def plot_iv_comparison(self, voltage: np.ndarray, show_parasitics: bool = True) -> None:
+        """Plot IV characteristics with and without parasitics for comparison."""
+        from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
+        use_headless_backend("Agg")
+        apply_basic_style()
+        
+        # Calculate ideal current (no parasitics)
+        old_enable = self.enable_parasitics
+        self.enable_parasitics = False
+        results_ideal = self.iv_characteristic(voltage)
+        current_ideal = results_ideal[0]
+        
+        if show_parasitics and (self.R_s > 0 or not np.isinf(self.R_sh)):
+            # Calculate current with parasitics
+            self.enable_parasitics = True
+            results_parasitic = self.iv_characteristic(voltage)
+            current_parasitic = results_parasitic[0]
+            self.enable_parasitics = old_enable
+            
+            plt.figure(figsize=(8, 6))
+            plt.plot(voltage, current_ideal, 'b-', label='Ideal (no parasitics)', linewidth=2)
+            plt.plot(voltage, current_parasitic, 'r--', label=f'With parasitics (Rs={self.R_s}Ω, Rsh={self.R_sh}Ω)', linewidth=2)
+            plt.xlabel('Voltage (V)')
+            plt.ylabel('Current (A)')
+            plt.title('LED: Ideal vs Parasitic Model')
+            plt.grid(True)
+            plt.legend()
+            plt.show()
+        else:
+            self.enable_parasitics = old_enable
+            plt.figure(figsize=(8, 6))
+            plt.plot(voltage, current_ideal, 'b-', label='IV Characteristic', linewidth=2)
+            plt.xlabel('Voltage (V)')
+            plt.ylabel('Current (A)')
+            plt.title('LED IV Characteristics')
+            plt.grid(True)
+            plt.legend()
+            plt.show()

@@ -2,6 +2,10 @@
 
 import numpy as np
 from semiconductor_sim.utils import q, k_B, DEFAULT_T
+from semiconductor_sim.utils import (
+    intrinsic_carrier_concentration,
+    diffusion_coefficient_temperature,
+)
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
 from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_style
@@ -12,7 +16,19 @@ from .base import Device
 
 
 class ZenerDiode(Device):
-    def __init__(self, doping_p, doping_n, area=1e-4, zener_voltage=5.0, temperature=300, tau_n=1e-6, tau_p=1e-6):
+    def __init__(
+        self, 
+        doping_p, 
+        doping_n, 
+        area=1e-4, 
+        zener_voltage=5.0, 
+        temperature=300, 
+        tau_n=1e-6, 
+        tau_p=1e-6,
+        R_s=0.0,
+        R_sh=np.inf,
+        enable_parasitics=False,
+    ):
         """
         Initialize the Zener Diode.
 
@@ -24,8 +40,11 @@ class ZenerDiode(Device):
             temperature (float): Temperature in Kelvin
             tau_n (float): Electron lifetime (s)
             tau_p (float): Hole lifetime (s)
+            R_s: Series resistance (Ω)
+            R_sh: Shunt resistance (Ω)
+            enable_parasitics: Enable parasitic effects
         """
-        super().__init__(area=area, temperature=temperature)
+        super().__init__(area=area, temperature=temperature, R_s=R_s, R_sh=R_sh, enable_parasitics=enable_parasitics)
         self.doping_p = doping_p
         self.doping_n = doping_n
         self.zener_voltage = zener_voltage
@@ -36,13 +55,19 @@ class ZenerDiode(Device):
 
     def calculate_saturation_current(self):
         """
-        Calculate the saturation current (I_s) considering temperature.
+        Calculate the saturation current (I_s) with improved temperature dependence.
         """
-        D_n = 25  # Electron diffusion coefficient (cm^2/s)
-        D_p = 10  # Hole diffusion coefficient (cm^2/s)
+        # Improved intrinsic carrier concentration with temperature-dependent bandgap
+        n_i = intrinsic_carrier_concentration(self.temperature)
+        
+        # Temperature-dependent diffusion coefficients
+        D_n_ref = 25  # Electron diffusion coefficient (cm^2/s)
+        D_p_ref = 10  # Hole diffusion coefficient (cm^2/s)
+        D_n = diffusion_coefficient_temperature(self.temperature, D_n_ref)
+        D_p = diffusion_coefficient_temperature(self.temperature, D_p_ref)
+        
         L_n = 5e-4  # Electron diffusion length (cm)
         L_p = 5e-4  # Hole diffusion length (cm)
-        n_i = 1.5e10 * (self.temperature / DEFAULT_T)**1.5  # Intrinsic carrier concentration
 
         I_s = q * self.area * n_i**2 * (
             (D_p / (L_p * self.doping_n)) +
@@ -93,7 +118,7 @@ class ZenerDiode(Device):
         self.zener_voltage = self.predict_zener_voltage()
         
         V_T = k_B * self.temperature / q  # Thermal voltage
-        I = self.I_s * safe_expm1(voltage_array / V_T)
+        I_ideal = self.I_s * safe_expm1(voltage_array / V_T)
 
         # Implement Zener breakdown
         I_breakdown = np.where(
@@ -101,7 +126,13 @@ class ZenerDiode(Device):
             0.1 * self.I_s * (voltage_array - self.zener_voltage),
             0,
         )
-        I += I_breakdown
+        I_ideal += I_breakdown
+
+        # Apply parasitics if enabled
+        if self.enable_parasitics:
+            I = self._apply_parasitics(voltage_array, I_ideal)
+        else:
+            I = I_ideal
 
         if n_conc is not None and p_conc is not None:
             R_SRH = srh_recombination(n_conc, p_conc, temperature=self.temperature, tau_n=self.tau_n, tau_p=self.tau_p)

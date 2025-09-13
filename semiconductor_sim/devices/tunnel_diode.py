@@ -3,6 +3,10 @@
 import numpy as np
 from typing import Optional, Tuple, Union
 from semiconductor_sim.utils import q, k_B, DEFAULT_T
+from semiconductor_sim.utils import (
+    intrinsic_carrier_concentration,
+    diffusion_coefficient_temperature,
+)
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils.numerics import safe_expm1
 import matplotlib.pyplot as plt
@@ -11,7 +15,18 @@ from semiconductor_sim.utils.plotting import use_headless_backend, apply_basic_s
 
 
 class TunnelDiode(Device):
-    def __init__(self, doping_p: float, doping_n: float, area: float = 1e-4, temperature: float = DEFAULT_T, tau_n: float = 1e-6, tau_p: float = 1e-6) -> None:
+    def __init__(
+        self, 
+        doping_p: float, 
+        doping_n: float, 
+        area: float = 1e-4, 
+        temperature: float = DEFAULT_T, 
+        tau_n: float = 1e-6, 
+        tau_p: float = 1e-6,
+        R_s: float = 0.0,
+        R_sh: float = np.inf,
+        enable_parasitics: bool = False,
+    ) -> None:
         """
         Initialize the Tunnel Diode.
         
@@ -22,8 +37,11 @@ class TunnelDiode(Device):
             temperature (float): Temperature in Kelvin
             tau_n (float): Electron lifetime (s)
             tau_p (float): Hole lifetime (s)
+            R_s: Series resistance (Ω)
+            R_sh: Shunt resistance (Ω)
+            enable_parasitics: Enable parasitic effects
         """
-        super().__init__(area=area, temperature=temperature)
+        super().__init__(area=area, temperature=temperature, R_s=R_s, R_sh=R_sh, enable_parasitics=enable_parasitics)
         self.doping_p = doping_p
         self.doping_n = doping_n
         self.tau_n = tau_n
@@ -32,13 +50,19 @@ class TunnelDiode(Device):
         self.Eg = 0.7  # Bandgap energy for Tunnel Diode (eV), adjust as needed
 
     def calculate_saturation_current(self) -> float:
-        """Calculate the saturation current (I_s) considering temperature."""
+        """Calculate the saturation current (I_s) with improved temperature dependence."""
+        # Improved intrinsic carrier concentration with temperature-dependent bandgap
+        n_i = intrinsic_carrier_concentration(self.temperature)
+        
         # High doping concentrations lead to high I_s
-        D_n = 30  # Electron diffusion coefficient (cm^2/s)
-        D_p = 12  # Hole diffusion coefficient (cm^2/s)
+        # Temperature-dependent diffusion coefficients  
+        D_n_ref = 30  # Electron diffusion coefficient (cm^2/s)
+        D_p_ref = 12  # Hole diffusion coefficient (cm^2/s)
+        D_n = diffusion_coefficient_temperature(self.temperature, D_n_ref)
+        D_p = diffusion_coefficient_temperature(self.temperature, D_p_ref)
+        
         L_n = 1e-4  # Electron diffusion length (cm)
         L_p = 1e-4  # Hole diffusion length (cm)
-        n_i = 1e10 * (self.temperature / DEFAULT_T)**1.5  # Intrinsic carrier concentration
         
         I_s = q * self.area * n_i**2 * (
             (D_p / (L_p * self.doping_n)) +
@@ -60,7 +84,13 @@ class TunnelDiode(Device):
         """
         V_T = k_B * self.temperature / q  # Thermal voltage
         # Use a simplified exponential IV to ensure correct sign in reverse bias
-        I = self.I_s * safe_expm1(voltage_array / V_T)
+        I_ideal = self.I_s * safe_expm1(voltage_array / V_T)
+
+        # Apply parasitics if enabled
+        if self.enable_parasitics:
+            I = self._apply_parasitics(voltage_array, I_ideal)
+        else:
+            I = I_ideal
         
         if n_conc is not None and p_conc is not None:
             R_SRH = srh_recombination(n_conc, p_conc, temperature=self.temperature, tau_n=self.tau_n, tau_p=self.tau_p)

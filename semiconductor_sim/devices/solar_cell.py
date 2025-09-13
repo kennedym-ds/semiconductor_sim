@@ -17,6 +17,9 @@ class SolarCell(Device):
         area: float = 1e-4,
         light_intensity: float = 1.0,
         temperature: float = DEFAULT_T,
+        R_s: float = 0.0,
+        R_sh: float = np.inf,
+        enable_parasitics: bool = False,
     ) -> None:
         """
         Initialize the Solar Cell device.
@@ -27,8 +30,11 @@ class SolarCell(Device):
             area (float): Cross-sectional area of the solar cell (cm^2)
             light_intensity (float): Incident light intensity (arbitrary units)
             temperature (float): Temperature in Kelvin
+            R_s: Series resistance (Ω)
+            R_sh: Shunt resistance (Ω)
+            enable_parasitics: Enable parasitic effects
         """
-        super().__init__(area=area, temperature=temperature)
+        super().__init__(area=area, temperature=temperature, R_s=R_s, R_sh=R_sh, enable_parasitics=enable_parasitics)
         self.doping_p = doping_p
         self.doping_n = doping_n
         self.light_intensity = light_intensity
@@ -67,9 +73,16 @@ class SolarCell(Device):
             Tuple containing one element:
             - current_array (np.ndarray): Array of current values (A)
         """
-        I = self.I_sc - 1e-12 * safe_expm1(
+        I_ideal = self.I_sc - 1e-12 * safe_expm1(
             voltage_array / (k_B * self.temperature / q)
         )
+
+        # Apply parasitics if enabled
+        if self.enable_parasitics:
+            I = self._apply_parasitics(voltage_array, I_ideal)
+        else:
+            I = I_ideal
+            
         return (np.asarray(I),)
 
     def plot_iv_characteristic(self, voltage, current):
