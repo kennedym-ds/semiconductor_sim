@@ -1,0 +1,13 @@
+Golden Reference Data: solar_cell
+========================================
+
+Source: Ideal solar cell equation (Sze & Ng)
+
+Parameters:
+  I_s: 1e-10
+  I_ph: 0.001
+  temperature: 300.0
+  V_T: 0.025851999786435535
+
+Data shape: (101, 2)
+Columns: ['voltage_V', 'current_A']

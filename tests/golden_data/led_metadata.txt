@@ -1,0 +1,13 @@
+Golden Reference Data: led
+========================================
+
+Source: Ideal diode + simplified emission model
+
+Parameters:
+  I_s: 1e-15
+  temperature: 300.0
+  V_threshold: 1.5
+  V_T: 0.025851999786435535
+
+Data shape: (51, 3)
+Columns: ['voltage_V', 'current_A', 'emission_arb']
