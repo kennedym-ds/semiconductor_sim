@@ -17,10 +17,10 @@ Thank you for helping improve SemiconductorSim! Contributions of all kinds are w
 ## Development Workflow
 
 1. Create a branch: `git checkout -b feature/<short-desc>` or `fix/<short-desc>`
-2. Make focused changes with tests where applicable.
-3. Lint and type-check locally: `ruff check .; mypy semiconductor_sim`
-4. Run tests with coverage: `pytest --maxfail=1 --disable-warnings -q`
-5. Commit using Conventional Commits (see below) and open a PR.
+1. Make focused changes with tests where applicable.
+1. Lint and type-check locally: `ruff check .; mypy semiconductor_sim`
+1. Run tests with coverage: `pytest --maxfail=1 --disable-warnings -q`
+1. Commit using Conventional Commits (see below) and open a PR.
 
 ## Conventional Commits
 

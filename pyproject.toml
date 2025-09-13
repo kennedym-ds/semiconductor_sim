@@ -50,3 +50,7 @@ packages = { find = { include = ["semiconductor_sim", "semiconductor_sim.*"] } }
 
 [tool.setuptools.package-data]
 semiconductor_sim = ["py.typed"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".hypothesis"]
+skips = ["B101", "B110"]  # Skip assert_used and try_except_pass tests since they are acceptable in this context
