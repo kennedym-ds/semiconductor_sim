@@ -1,0 +1,4 @@
+# file: /home/runner/work/semiconductor_sim/semiconductor_sim/semiconductor_sim/models/radiative_recombination.py
+# hypothesis_version: 6.138.16
+
+[0.0, 1e-10, 15000000000.0]
