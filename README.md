@@ -27,6 +27,7 @@ semiconductor engineering.
 - Units & Conventions
 - Interactive Notebooks
 - Development
+- Roadmap
 - Troubleshooting
 - Contributing
 - License
@@ -186,6 +187,16 @@ Linux/Windows/macOS with coverage thresholds. It includes dependency
 review, pip-audit security checks, and CodeQL scanning. Dependabot keeps
 GitHub Actions and pip dependencies updated. Publishing to PyPI is
 automated on tags `v*.*.*`. See `CHANGELOG.md` for notable changes.
+
+## 🗺️ Roadmap
+
+SemiconductorSim is actively developed with a clear roadmap for upcoming features:
+
+- **0.2.0** (Q1 2024): BJT and Schottky diode models, packaging improvements
+- **0.2.1** (Q2 2024): Physics refinements, performance optimization with Numba/JAX
+- **0.2.2** (Q3 2024): Parameter schemas, CLI tools, enhanced documentation
+
+See our complete [development roadmap](ROADMAP.md) for detailed feature specifications and timelines.
 
 ## 🩺 Troubleshooting
 
