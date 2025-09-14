@@ -1,0 +1,4 @@
+# file: C:\Users\Micha\OneDrive\Documents\Projects\semiconductor_sim\semiconductor_sim\materials\__init__.py
+# hypothesis_version: 6.138.15
+
+['Material', 'get_material', 'list_materials', 'materials']

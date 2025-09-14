@@ -1,7 +1,5 @@
 """MOS capacitor device model."""
 
-from typing import Optional, Union
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -56,7 +54,7 @@ class MOSCapacitor(Device):
         # Use effective reverse bias magnitude: positive gate voltage increases depletion
         V = V_bi + np.maximum(applied_voltage, 0)
         W = np.sqrt((2 * epsilon_0 * self.oxide_permittivity * V) / (q * self.doping_p))
-        return W
+        return np.asarray(W, dtype=float)
 
     def capacitance(self, applied_voltage: np.ndarray) -> np.ndarray:
         """Calculate the capacitance as a function of applied voltage."""
@@ -69,27 +67,27 @@ class MOSCapacitor(Device):
 
         # Simplified model: capacitance transitions from C_ox to C_depl
         C = np.where(applied_voltage < 0, C_depl, self.C_ox)
-        return C
+        return np.asarray(C, dtype=float)
 
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[Union[float, np.ndarray]] = None,
-        p_conc: Optional[Union[float, np.ndarray]] = None,
-    ):
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Calculate current for `voltage_array`; optionally compute SRH recombination."""
         V_T = k_B * self.temperature / q  # Thermal voltage
         I = self.C_ox * (voltage_array) / V_T  # Simplified current model
 
         if n_conc is not None and p_conc is not None:
-            R_SRH = srh_recombination(
+            R_SRH_val = srh_recombination(
                 n_conc, p_conc, temperature=self.temperature, tau_n=self.tau_n, tau_p=self.tau_p
             )
-            R_SRH = np.broadcast_to(R_SRH, np.shape(voltage_array))
+            R_SRH = np.broadcast_to(np.asarray(R_SRH_val, dtype=float), np.shape(voltage_array))
         else:
             R_SRH = np.zeros_like(voltage_array)
 
-        return np.asarray(I), np.asarray(R_SRH)
+        return np.asarray(I, dtype=float), np.asarray(R_SRH, dtype=float)
 
     def plot_capacitance_vs_voltage(self, voltage: np.ndarray) -> None:
         """Plot the capacitance-voltage (C-V) characteristics.
@@ -109,7 +107,7 @@ class MOSCapacitor(Device):
         plt.show()
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

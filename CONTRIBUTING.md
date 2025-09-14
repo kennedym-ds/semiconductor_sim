@@ -77,6 +77,19 @@ Examples:
 - Build locally: `pip install mkdocs-material; mkdocs serve`
 - Docs live in `docs/`; the config is `mkdocs.yml`.
 
+### Docs & Gallery
+
+- Gallery images are auto-generated in CI during the Docs workflow before publish.
+- To regenerate them locally for preview:
+
+  ```powershell
+  .\.venv\Scripts\python.exe scripts\generate_gallery_images.py
+  .\.venv\Scripts\python.exe -m mkdocs build --strict
+  ```
+
+- A VS Code task is available: "venv: docs (strict)". There’s also a task to
+  regenerate gallery images if present in `.vscode/tasks.json`.
+
 ## Pull Request Template
 
 Please use the project PR template to provide context and validation steps:

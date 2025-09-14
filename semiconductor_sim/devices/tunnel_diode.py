@@ -1,7 +1,5 @@
 """Tunnel diode device model."""
 
-from typing import Optional, Tuple, Union
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -59,9 +57,9 @@ class TunnelDiode(Device):
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[Union[float, np.ndarray]] = None,
-        p_conc: Optional[Union[float, np.ndarray]] = None,
-    ) -> Tuple[np.ndarray, np.ndarray]:
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Calculate the current for a given array of voltages, including SRH recombination.
 
@@ -88,7 +86,7 @@ class TunnelDiode(Device):
         return np.asarray(I), np.asarray(R_SRH)
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

@@ -1,21 +1,19 @@
 """Recombination models."""
 
-from typing import Optional, Union
-
 import numpy as np
 
 from semiconductor_sim.utils import DEFAULT_T
 
 
 def srh_recombination(
-    n: Union[float, np.ndarray],
-    p: Union[float, np.ndarray],
+    n: float | np.ndarray,
+    p: float | np.ndarray,
     temperature: float = float(DEFAULT_T),
     tau_n: float = 1e-6,
     tau_p: float = 1e-6,
-    n1: Optional[float] = None,
-    p1: Optional[float] = None,
-) -> Union[float, np.ndarray]:
+    n1: float | None = None,
+    p1: float | None = None,
+) -> float | np.ndarray:
     """
     Calculate the Shockley-Read-Hall (SRH) recombination rate.
 
@@ -36,6 +34,13 @@ def srh_recombination(
     n_i = 1.5e10 * (temperature / float(DEFAULT_T)) ** 1.5
     n1_val = n_i if n1 is None else n1
     p1_val = n_i if p1 is None else p1
-    denominator = tau_p * (n + n1_val) + tau_n * (p + p1_val)
-    R_SRH = (n * p - n_i**2) / denominator
-    return R_SRH
+
+    n_arr = np.asarray(n, dtype=float)
+    p_arr = np.asarray(p, dtype=float)
+
+    denominator = tau_p * (n_arr + n1_val) + tau_n * (p_arr + p1_val)
+    R_SRH = (n_arr * p_arr - n_i**2) / denominator
+
+    if np.isscalar(n) and np.isscalar(p):
+        return float(np.asarray(R_SRH).item())
+    return np.asarray(R_SRH, dtype=float)

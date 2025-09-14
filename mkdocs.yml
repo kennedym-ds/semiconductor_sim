@@ -19,6 +19,29 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Examples: examples.md
+  - Devices:
+    - Overview: devices/index.md
+    - PN Junction: devices/pn_junction.md
+    - PIN Diode: devices/pin_diode.md
+    - Schottky Diode: devices/schottky_diode.md
+    - Photodiode: devices/photodiode.md
+    - BJT: devices/bjt.md
+    - LED: devices/led.md
+    - Solar Cell: devices/solar_cell.md
+    - MOS Capacitor: devices/mos_capacitor.md
+    - Varactor Diode: devices/varactor_diode.md
+    - Tunnel Diode: devices/tunnel_diode.md
+    - Zener Diode: devices/zener_diode.md
+  - Labs:
+    - PN Basics: labs/pn-basics.md
+    - LED Lab: labs/led-lab.md
+    - Solar Lab: labs/solar-lab.md
+  - Gallery: gallery.md
+  - Materials: materials.md
+  - Glossary: glossary.md
+  - Troubleshooting: troubleshooting.md
+  - Interactivity: interactivity.md
+  - Roadmap: roadmap.md
   - Changelog: changelog.md
   - API: api.md
 markdown_extensions:

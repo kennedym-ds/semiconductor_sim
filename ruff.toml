@@ -22,7 +22,7 @@ ignore = [
 [lint.per-file-ignores]
 "examples/**" = ["E501", "F401", "F841", "E402"]
 "tests/**" = ["E501", "E741"]
-"semiconductor_sim/utils/plotting.py" = ["E402"]
+"semiconductor_sim/utils/plotting.py" = ["E402", "PLC0415"]
 
 [format]
 quote-style = "preserve"
@@ -31,3 +31,4 @@ indent-style = "space"
 [lint.isort]
 combine-as-imports = true
 force-single-line = false
+known-first-party = ["semiconductor_sim"]

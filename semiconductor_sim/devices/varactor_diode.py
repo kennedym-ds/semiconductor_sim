@@ -1,7 +1,5 @@
 """Varactor diode device model."""
 
-from typing import Optional, Tuple, Union
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -54,7 +52,7 @@ class VaractorDiode(Device):
         )
         return float(I_s)
 
-    def capacitance(self, reverse_voltage: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+    def capacitance(self, reverse_voltage: float | np.ndarray) -> float | np.ndarray:
         """Calculate the junction capacitance for a given reverse voltage."""
         # Permittivity of silicon (approx.)
         epsilon_s = 11.7 * 8.854e-14  # F/cm
@@ -79,9 +77,9 @@ class VaractorDiode(Device):
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[Union[float, np.ndarray]] = None,
-        p_conc: Optional[Union[float, np.ndarray]] = None,
-    ) -> Tuple[np.ndarray, np.ndarray]:
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Calculate current for `voltage_array`, including SRH recombination
         if concentrations are provided.
@@ -102,7 +100,7 @@ class VaractorDiode(Device):
         return np.asarray(I), np.asarray(R_SRH)
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

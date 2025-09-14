@@ -1,10 +1,9 @@
 """PN Junction diode device model."""
 
-from typing import Optional, Tuple, Union
-
 import matplotlib.pyplot as plt
 import numpy as np
 
+from semiconductor_sim.materials import Material
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
 from semiconductor_sim.utils.numerics import safe_expm1
@@ -35,6 +34,7 @@ class PNJunctionDiode(Device):
         D_p: float = 10.0,
         L_n: float = 5e-4,
         L_p: float = 5e-4,
+        material: Material | None = None,
     ) -> None:
         """
         Initialize the PN Junction Diode.
@@ -56,12 +56,16 @@ class PNJunctionDiode(Device):
         self.D_p = float(D_p)
         self.L_n = float(L_n)
         self.L_p = float(L_p)
+        self.material = material
         self.I_s = self.calculate_saturation_current()
 
     def calculate_saturation_current(self) -> float:
         """Calculate the saturation current (I_s) considering temperature."""
         # Intrinsic carrier concentration with temperature dependence
-        n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
+        if self.material is not None:
+            n_i = float(np.asarray(self.material.ni(self.temperature)))
+        else:
+            n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
         I_s = (
             q
             * self.area
@@ -73,9 +77,9 @@ class PNJunctionDiode(Device):
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[Union[float, np.ndarray]] = None,
-        p_conc: Optional[Union[float, np.ndarray]] = None,
-    ) -> Tuple[np.ndarray, np.ndarray]:
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """
         Calculate the current for a given array of voltages, including SRH recombination.
 
@@ -97,18 +101,17 @@ class PNJunctionDiode(Device):
             R_SRH = np.broadcast_to(R_SRH, np.shape(voltage_array))
         else:
             R_SRH = np.zeros_like(voltage_array)
-
         return np.asarray(I), np.asarray(R_SRH)
 
     def __repr__(self) -> str:
         return (
             f"PNJunctionDiode(doping_p={self.doping_p}, doping_n={self.doping_n}, "
             f"area={self.area}, temperature={self.temperature}, tau_n={self.tau_n}, "
-            f"tau_p={self.tau_p})"
+            f"tau_p={self.tau_p}, material={self.material.symbol if self.material else None})"
         )
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: Optional[np.ndarray] = None
+        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

@@ -1,0 +1,56 @@
+name: Check Gallery Images
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements.txt
+      - name: Install minimal dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install .
+      - name: Generate gallery images
+        run: python scripts/generate_gallery_images.py
+      - name: Verify gallery images via manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="docs/images/.gallery_manifest.txt"
+          if [[ ! -f "$manifest" ]]; then
+            echo "Gallery manifest not found: $manifest"
+            exit 1
+          fi
+          missing=0
+          while IFS= read -r name; do
+            [[ -z "$name" ]] && continue
+            f="docs/images/$name"
+            if [[ ! -f "$f" ]]; then
+              echo "Missing image listed in manifest: $f"
+              missing=1
+            fi
+          done < "$manifest"
+          if [[ "$missing" -ne 0 ]]; then
+            echo "One or more gallery images are missing."
+            exit 1
+          fi
+          echo "All gallery images present per manifest."
+      - name: Upload gallery images artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gallery-images
+          path: docs/images/*.png
+          if-no-files-found: error

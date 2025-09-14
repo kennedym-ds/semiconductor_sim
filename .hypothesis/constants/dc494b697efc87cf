@@ -1,0 +1,4 @@
+# file: C:\Users\Micha\OneDrive\Documents\Projects\semiconductor_sim\semiconductor_sim\devices\schottky.py
+# hypothesis_version: 6.138.15
+
+[1e-18, 1e-06, 8.617333262145e-05, 0.0001, 0.1, 0.7, 1.0, 1.1, 2.0, 120.0, 300.0]

@@ -1,9 +1,10 @@
-# semiconductor_sim/devices/led.py
-
-from typing import Optional, Tuple
+"""LED device model."""
 
 import numpy as np
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
+from semiconductor_sim.materials import Material
 from semiconductor_sim.models import radiative_recombination, srh_recombination
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
 from semiconductor_sim.utils.numerics import safe_expm1
@@ -33,6 +34,7 @@ class LED(Device):
         D_p: float = 10.0,
         L_n: float = 5e-4,
         L_p: float = 5e-4,
+        material: Material | None = None,
     ) -> None:
         """
         Initialize the LED device.
@@ -56,6 +58,7 @@ class LED(Device):
         self.D_p = float(D_p)
         self.L_n = float(L_n)
         self.L_p = float(L_p)
+        self.material = material
         self.I_s = self.calculate_saturation_current()
 
     def calculate_saturation_current(self) -> float:
@@ -65,7 +68,10 @@ class LED(Device):
         Returns:
             float: The saturation current in amperes.
         """
-        n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
+        if self.material is not None:
+            n_i = float(np.asarray(self.material.ni(self.temperature)))
+        else:
+            n_i = 1.5e10 * (self.temperature / DEFAULT_T) ** 1.5
         I_s = (
             q
             * self.area
@@ -77,9 +83,9 @@ class LED(Device):
     def iv_characteristic(
         self,
         voltage_array: np.ndarray,
-        n_conc: Optional[float | np.ndarray] = None,
-        p_conc: Optional[float | np.ndarray] = None,
-    ) -> Tuple[np.ndarray, ...]:
+        n_conc: float | np.ndarray | None = None,
+        p_conc: float | np.ndarray | None = None,
+    ) -> tuple[np.ndarray, ...]:
         """
         Calculate current and optical emission across `voltage_array`.
 
@@ -127,8 +133,8 @@ class LED(Device):
         self,
         voltage: np.ndarray,
         current: np.ndarray,
-        emission: Optional[np.ndarray] = None,
-        recombination: Optional[np.ndarray] = None,
+        emission: np.ndarray | None = None,
+        recombination: np.ndarray | None = None,
     ) -> None:
         """
         Plot the IV characteristics, emission intensity, and recombination rate.
@@ -139,9 +145,6 @@ class LED(Device):
             emission (np.ndarray, optional): Emission intensities (arb. units)
             recombination (np.ndarray, optional): Recombination rates (cm^-3 s^-1)
         """
-        import plotly.graph_objects as go
-        from plotly.subplots import make_subplots
-
         fig = make_subplots(
             rows=2,
             cols=1,
@@ -220,5 +223,6 @@ class LED(Device):
     def __repr__(self) -> str:
         return (
             f"LED(doping_p={self.doping_p}, doping_n={self.doping_n}, area={self.area}, "
-            f"efficiency={self.efficiency}, temperature={self.temperature}, B={self.B})"
+            f"efficiency={self.efficiency}, temperature={self.temperature}, B={self.B}, "
+            f"material={self.material.symbol if self.material else None})"
         )

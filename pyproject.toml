@@ -51,6 +51,9 @@ packages = { find = { include = ["semiconductor_sim", "semiconductor_sim.*"] } }
 [tool.setuptools.package-data]
 semiconductor_sim = ["py.typed"]
 
+[project.scripts]
+semisim = "semiconductor_sim.cli:main"
+
 [project.optional-dependencies]
 dev = [
 	"pre-commit",

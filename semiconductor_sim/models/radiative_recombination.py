@@ -1,6 +1,4 @@
-# semiconductor_sim/models/radiative_recombination.py
-
-from typing import Union
+"""Radiative recombination model."""
 
 import numpy as np
 
@@ -8,11 +6,11 @@ from semiconductor_sim.utils import DEFAULT_T
 
 
 def radiative_recombination(
-    n: Union[float, np.ndarray],
-    p: Union[float, np.ndarray],
+    n: float | np.ndarray,
+    p: float | np.ndarray,
     B: float = 1e-10,
     temperature: float = DEFAULT_T,
-) -> Union[float, np.ndarray]:
+) -> float | np.ndarray:
     """Compute the radiative recombination rate.
 
     Parameters:

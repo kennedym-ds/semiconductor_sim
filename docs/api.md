@@ -45,6 +45,16 @@ This API documentation is generated from docstrings using mkdocstrings.
     options:
       members: true
       show_source: true
+::: semiconductor_sim.devices.photodiode
+    handler: python
+    options:
+      members: true
+      show_source: true
+::: semiconductor_sim.devices.schottky
+    handler: python
+    options:
+      members: true
+      show_source: true
 
 ## Models
 
@@ -73,6 +83,24 @@ This API documentation is generated from docstrings using mkdocstrings.
       show_source: true
 
 ::: semiconductor_sim.models.high_frequency
+    handler: python
+    options:
+      members: true
+      show_source: true
+::: semiconductor_sim.models.mobility
+    handler: python
+    options:
+      members: true
+      show_source: true
+::: semiconductor_sim.models.srh
+    handler: python
+    options:
+      members: true
+      show_source: true
+
+## Materials
+
+::: semiconductor_sim.materials
     handler: python
     options:
       members: true
