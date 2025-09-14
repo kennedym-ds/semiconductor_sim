@@ -1,4 +1,0 @@
-# file: C:\Users\Micha\OneDrive\Documents\Projects\semiconductor_sim\semiconductor_sim\devices\__init__.py
-# hypothesis_version: 6.138.15
-
-['Device', 'LED', 'MOSCapacitor', 'PNJunctionDiode', 'SchottkyDiode', 'SolarCell', 'TunnelDiode', 'VaractorDiode', 'ZenerDiode']

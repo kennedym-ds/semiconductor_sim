@@ -101,10 +101,13 @@ class BJT(Device):
         # Outer products to form grid over (V_BE, V_CE)
         term_vbe = exp_vbe[:, None]
         va = float(self.early_voltage)
+        n_vbe = int(self.vbe_values.size)
+        n_vce = int(V_CE.size)
         if not np.isfinite(va) or va <= 0.0:
-            term_early = np.ones((self.vbe_values.size, V_CE.size))
+            term_early = np.ones((n_vbe, n_vce))
         else:
-            term_early = 1.0 + (V_CE[None, :] / va)
+            base = 1.0 + (V_CE / va)
+            term_early = np.broadcast_to(base, (n_vbe, n_vce))
 
         I_C = self.I_s * term_vbe * term_early
         I_C = np.maximum(I_C, 0.0)
@@ -184,10 +187,13 @@ class PNP(Device):
         exp_veb = safe_expm1(self.veb_values / V_T) + 1.0
         term_veb = exp_veb[:, None]
         va = float(self.early_voltage)
+        n_veb = int(self.veb_values.size)
+        n_vce = int(V_CE.size)
         if not np.isfinite(va) or va <= 0.0:
-            term_early = np.ones((self.veb_values.size, V_CE.size))
+            term_early = np.ones((n_veb, n_vce))
         else:
-            term_early = 1.0 + ((-V_CE)[None, :] / va)
+            base = 1.0 + ((-V_CE) / va)
+            term_early = np.broadcast_to(base, (n_veb, n_vce))
 
         I_C_mag = self.I_s * term_veb * term_early
         I_C = -I_C_mag

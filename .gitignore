@@ -52,6 +52,7 @@ coverage.xml
 nosetests.xml
 test-results/
 pytest_cache/
+.hypothesis/
 
 # MyPy / Ruff
 .mypy_cache/

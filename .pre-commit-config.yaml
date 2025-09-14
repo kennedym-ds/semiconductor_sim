@@ -1,12 +1,12 @@
 exclude: |
-  ^(
-    \.venv/|
-    build/|
-    dist/|
-    semiconductor_sim\.egg-info/|
-    \.hypothesis/|
-    \.mypy_cache/|
-    \.pytest_cache/
+  (?x)^(                       # verbose regex
+    \.venv/|                  # virtualenv
+    build/|                    # build artifacts
+    dist/|                     # distribution
+    semiconductor_sim\.egg-info/| # egg-info
+    \.hypothesis/|            # hypothesis cache (all files)
+    \.mypy_cache/|            # mypy cache
+    \.pytest_cache/           # pytest cache
   )
 
 repos:
