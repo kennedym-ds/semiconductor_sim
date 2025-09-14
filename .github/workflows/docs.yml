@@ -47,7 +47,7 @@ jobs:
           if-no-files-found: warn
       - name: Check links in docs
         if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-        uses: lycheeverse/lychee-action@v1
+        uses: lycheeverse/lychee-action@v2
         with:
           args: --no-progress --verbose --max-concurrency 5 --insecure --accept 429 --retry-wait-time 2 --retry-count 2 ./site/**/*.html ./docs/**/*.md
         env:
