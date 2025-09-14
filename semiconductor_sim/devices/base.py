@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.utils import DEFAULT_T
 
@@ -26,10 +27,10 @@ class Device(ABC):
     @abstractmethod
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """
         Compute current vs. voltage. Implementations must return a tuple where the
         first element is the current array, and optional subsequent arrays include

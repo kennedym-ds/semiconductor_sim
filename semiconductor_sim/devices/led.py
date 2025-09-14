@@ -1,6 +1,7 @@
 """LED device model."""
 
 import numpy as np
+import numpy.typing as npt
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -82,10 +83,10 @@ class LED(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """
         Calculate current and optical emission across `voltage_array`.
 
@@ -97,8 +98,8 @@ class LED(Device):
 
                 Returns:
                         - If both `n_conc` and `p_conc` are provided:
-                            `(I, emission, R_SRH)` where each is `np.ndarray`.
-                        - Else: `(I, emission)` where both are `np.ndarray`.
+                            `(I, emission, R_SRH)` where each is an array.
+                        - Else: `(I, emission)` where both are arrays.
         """
         V_T = k_B * self.temperature / q  # Thermal voltage
         I = self.I_s * safe_expm1(voltage_array / V_T)
@@ -131,19 +132,19 @@ class LED(Device):
 
     def plot_iv_characteristic(
         self,
-        voltage: np.ndarray,
-        current: np.ndarray,
-        emission: np.ndarray | None = None,
-        recombination: np.ndarray | None = None,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+        emission: npt.NDArray[np.floating] | None = None,
+        recombination: npt.NDArray[np.floating] | None = None,
     ) -> None:
         """
         Plot the IV characteristics, emission intensity, and recombination rate.
 
         Parameters:
-            voltage (np.ndarray): Voltage values (V)
-            current (np.ndarray): Current values (A)
-            emission (np.ndarray, optional): Emission intensities (arb. units)
-            recombination (np.ndarray, optional): Recombination rates (cm^-3 s^-1)
+            voltage: Voltage values (V)
+            current: Current values (A)
+            emission: Emission intensities (arb. units)
+            recombination: Recombination rates (cm^-3 s^-1)
         """
         fig = make_subplots(
             rows=2,

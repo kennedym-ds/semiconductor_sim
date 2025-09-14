@@ -1,19 +1,20 @@
 """Recombination models."""
 
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.utils import DEFAULT_T
 
 
 def srh_recombination(
-    n: float | np.ndarray,
-    p: float | np.ndarray,
+    n: float | npt.NDArray[np.floating],
+    p: float | npt.NDArray[np.floating],
     temperature: float = float(DEFAULT_T),
     tau_n: float = 1e-6,
     tau_p: float = 1e-6,
     n1: float | None = None,
     p1: float | None = None,
-) -> float | np.ndarray:
+) -> float | npt.NDArray[np.floating]:
     """
     Calculate the Shockley-Read-Hall (SRH) recombination rate.
 

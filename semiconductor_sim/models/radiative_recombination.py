@@ -1,16 +1,17 @@
 """Radiative recombination model."""
 
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.utils import DEFAULT_T
 
 
 def radiative_recombination(
-    n: float | np.ndarray,
-    p: float | np.ndarray,
+    n: float | npt.NDArray[np.floating],
+    p: float | npt.NDArray[np.floating],
     B: float = 1e-10,
     temperature: float = DEFAULT_T,
-) -> float | np.ndarray:
+) -> float | npt.NDArray[np.floating]:
     """Compute the radiative recombination rate.
 
     Parameters:
@@ -30,4 +31,4 @@ def radiative_recombination(
     R = B * (n * p - ni_sq)
     if isinstance(R, np.ndarray):
         return np.maximum(R, 0)
-    return max(R, 0.0)
+    return max(float(R), 0.0)

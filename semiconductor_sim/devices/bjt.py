@@ -16,6 +16,7 @@ Assumptions:
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.materials import Material
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
@@ -33,7 +34,13 @@ class BJT(Device):
         area: float = 1e-4,
         temperature: float = DEFAULT_T,
         early_voltage: float = 50.0,
-        vbe_values: np.ndarray | list[float] | tuple[float, ...] = (0.6, 0.65, 0.7, 0.75, 0.8),
+        vbe_values: (npt.NDArray[np.floating] | list[float] | tuple[float, ...]) = (
+            0.6,
+            0.65,
+            0.7,
+            0.75,
+            0.8,
+        ),
         material: Material | None = None,
     ) -> None:
         """Initialize an NPN BJT model.
@@ -72,10 +79,10 @@ class BJT(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """Compute collector current for a sweep of V_CE at configured V_BE values.
 
         Parameters:
@@ -120,7 +127,13 @@ class PNP(Device):
         area: float = 1e-4,
         temperature: float = DEFAULT_T,
         early_voltage: float = 50.0,
-        veb_values: np.ndarray | list[float] | tuple[float, ...] = (0.6, 0.65, 0.7, 0.75, 0.8),
+        veb_values: (npt.NDArray[np.floating] | list[float] | tuple[float, ...]) = (
+            0.6,
+            0.65,
+            0.7,
+            0.75,
+            0.8,
+        ),
         material: Material | None = None,
     ) -> None:
         """Initialize a PNP BJT model (teaching-simple).
@@ -155,10 +168,10 @@ class PNP(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """Compute collector current for a sweep of V_CE at configured V_EB values.
 
         Returns:

@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.materials import Material
 from semiconductor_sim.models import srh_recombination
@@ -76,10 +77,10 @@ class PNJunctionDiode(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, np.ndarray]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], npt.NDArray[np.floating]]:
         """
         Calculate the current for a given array of voltages, including SRH recombination.
 
@@ -101,7 +102,7 @@ class PNJunctionDiode(Device):
             R_SRH = np.broadcast_to(R_SRH, np.shape(voltage_array))
         else:
             R_SRH = np.zeros_like(voltage_array)
-        return np.asarray(I), np.asarray(R_SRH)
+        return np.asarray(I, dtype=float), np.asarray(R_SRH, dtype=float)
 
     def __repr__(self) -> str:
         return (
@@ -111,7 +112,10 @@ class PNJunctionDiode(Device):
         )
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
+        self,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+        recombination: npt.NDArray[np.floating] | None = None,
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

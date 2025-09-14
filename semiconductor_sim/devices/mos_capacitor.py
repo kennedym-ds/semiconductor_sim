@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils import DEFAULT_T, epsilon_0, k_B, q
@@ -47,7 +48,9 @@ class MOSCapacitor(Device):
         C_ox = epsilon_ox * self.area / self.oxide_thickness  # F
         return C_ox
 
-    def depletion_width(self, applied_voltage: np.ndarray) -> np.ndarray:
+    def depletion_width(
+        self, applied_voltage: npt.NDArray[np.floating]
+    ) -> npt.NDArray[np.floating]:
         """Calculate the depletion width for a given applied voltage."""
         # Built-in potential (simplified)
         V_bi = 0.7  # Volts, adjust as needed
@@ -56,7 +59,7 @@ class MOSCapacitor(Device):
         W = np.sqrt((2 * epsilon_0 * self.oxide_permittivity * V) / (q * self.doping_p))
         return np.asarray(W, dtype=float)
 
-    def capacitance(self, applied_voltage: np.ndarray) -> np.ndarray:
+    def capacitance(self, applied_voltage: npt.NDArray[np.floating]) -> npt.NDArray[np.floating]:
         """Calculate the capacitance as a function of applied voltage."""
         # In accumulation, capacitance is C_ox
         # In depletion, capacitance decreases with increasing reverse bias
@@ -71,10 +74,10 @@ class MOSCapacitor(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, np.ndarray]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], npt.NDArray[np.floating]]:
         """Calculate current for `voltage_array`; optionally compute SRH recombination."""
         V_T = k_B * self.temperature / q  # Thermal voltage
         I = self.C_ox * (voltage_array) / V_T  # Simplified current model
@@ -89,7 +92,7 @@ class MOSCapacitor(Device):
 
         return np.asarray(I, dtype=float), np.asarray(R_SRH, dtype=float)
 
-    def plot_capacitance_vs_voltage(self, voltage: np.ndarray) -> None:
+    def plot_capacitance_vs_voltage(self, voltage: npt.NDArray[np.floating]) -> None:
         """Plot the capacitance-voltage (C-V) characteristics.
 
         Computes capacitance internally from the provided voltage array.
@@ -107,7 +110,10 @@ class MOSCapacitor(Device):
         plt.show()
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
+        self,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+        recombination: npt.NDArray[np.floating] | None = None,
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")

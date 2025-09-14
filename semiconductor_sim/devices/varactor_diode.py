@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
@@ -52,7 +53,9 @@ class VaractorDiode(Device):
         )
         return float(I_s)
 
-    def capacitance(self, reverse_voltage: float | np.ndarray) -> float | np.ndarray:
+    def capacitance(
+        self, reverse_voltage: float | npt.NDArray[np.floating]
+    ) -> float | npt.NDArray[np.floating]:
         """Calculate the junction capacitance for a given reverse voltage."""
         # Permittivity of silicon (approx.)
         epsilon_s = 11.7 * 8.854e-14  # F/cm
@@ -76,10 +79,10 @@ class VaractorDiode(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, np.ndarray]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], npt.NDArray[np.floating]]:
         """
         Calculate current for `voltage_array`, including SRH recombination
         if concentrations are provided.
@@ -100,7 +103,10 @@ class VaractorDiode(Device):
         return np.asarray(I), np.asarray(R_SRH)
 
     def plot_iv_characteristic(
-        self, voltage: np.ndarray, current: np.ndarray, recombination: np.ndarray | None = None
+        self,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+        recombination: npt.NDArray[np.floating] | None = None,
     ) -> None:
         """Plot the IV characteristics and optionally the recombination rate."""
         use_headless_backend("Agg")
@@ -125,7 +131,7 @@ class VaractorDiode(Device):
         plt.title('Varactor Diode IV Characteristics')
         plt.show()
 
-    def plot_capacitance_vs_voltage(self, voltage_array: np.ndarray) -> None:
+    def plot_capacitance_vs_voltage(self, voltage_array: npt.NDArray[np.floating]) -> None:
         """Plot the junction capacitance as a function of reverse voltage."""
         C_j = self.capacitance(voltage_array)
 

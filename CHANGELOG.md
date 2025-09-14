@@ -8,6 +8,31 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - Nothing yet.
 
+## [1.0.3] - 2025-09-14
+
+### Changed (1.0.3)
+
+- Patch release to publish cumulative fixes: typing updates,
+  strict docs, and packaging cleanup since 1.0.2.
+
+## [1.0.2] - 2025-09-14
+
+### Changed (1.0.2)
+
+- Migrated type annotations from bare `np.ndarray` to
+  `numpy.typing.NDArray[np.floating]` across devices and models to
+  satisfy `mypy` with `disallow_any_generics = True` on Linux/macOS.
+- Harmonized plotting/type signatures and generalized docstrings to
+  avoid `np.ndarray` mentions.
+
+### Fixed (1.0.2)
+
+- Resolved indentation/return placement issues in `solar_cell.py`,
+  `photodiode.py`, and `zener_diode.py` introduced during typing pass.
+- Addressed Ruff B905 by enforcing `zip(..., strict=True)` in gallery
+  generation script.
+- Verified strict docs build and full test suite (coverage ≥ 80%) pass locally.
+
 ## [1.0.0] - 2025-09-14
 
 ### Added (1.0.0)

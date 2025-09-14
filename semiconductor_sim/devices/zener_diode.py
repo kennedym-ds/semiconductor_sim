@@ -5,6 +5,7 @@ import os
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.models import srh_recombination
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
@@ -89,18 +90,23 @@ class ZenerDiode(Device):
         else:
             return self.zener_voltage
 
-    def iv_characteristic(self, voltage_array, n_conc=None, p_conc=None):
+    def iv_characteristic(
+        self,
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], npt.NDArray[np.floating]]:
         """
         Calculate the current for a given array of voltages, including SRH recombination.
 
         Parameters:
-            voltage_array (np.ndarray): Array of voltage values (V)
-            n_conc (float or np.ndarray): Electron concentration (cm^-3)
-            p_conc (float or np.ndarray): Hole concentration (cm^-3)
+            voltage_array: Array of voltage values (V)
+            n_conc: Electron concentration (cm^-3)
+            p_conc: Hole concentration (cm^-3)
 
         Returns:
-            current_array (np.ndarray): Array of current values (A)
-            recombination_array (np.ndarray): Array of recombination rates (cm^-3 s^-1)
+            current_array: Array of current values (A)
+            recombination_array: Array of recombination rates (cm^-3 s^-1)
         """
         # Update Zener voltage prediction
         self.zener_voltage = self.predict_zener_voltage()
@@ -124,16 +130,21 @@ class ZenerDiode(Device):
         else:
             R_SRH = np.zeros_like(voltage_array)
 
-        return np.asarray(I), np.asarray(R_SRH)
+        return np.asarray(I, dtype=float), np.asarray(R_SRH, dtype=float)
 
-    def plot_iv_characteristic(self, voltage, current, recombination=None):
+    def plot_iv_characteristic(
+        self,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+        recombination: npt.NDArray[np.floating] | None = None,
+    ) -> None:
         """
         Plot the IV characteristics and optionally the recombination rate.
 
         Parameters:
-            voltage (np.ndarray): Voltage values (V)
-            current (np.ndarray): Current values (A)
-            recombination (np.ndarray, optional): Recombination rates (cm^-3 s^-1)
+            voltage: Voltage values (V)
+            current: Current values (A)
+            recombination: Recombination rates (cm^-3 s^-1)
         """
         use_headless_backend("Agg")
         apply_basic_style()

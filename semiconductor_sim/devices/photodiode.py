@@ -11,6 +11,7 @@ Assumptions:
 from __future__ import annotations
 
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.materials import Material
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
@@ -69,10 +70,10 @@ class Photodiode(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: float | np.ndarray | None = None,
-        p_conc: float | np.ndarray | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: float | npt.NDArray[np.floating] | None = None,
+        p_conc: float | npt.NDArray[np.floating] | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """Return the illuminated I–V curve as a tuple with current array.
 
         Returns:
@@ -82,4 +83,4 @@ class Photodiode(Device):
         I_s = self._dark_saturation_current()
         I_ph = self._photocurrent()
         I = -I_ph + I_s * safe_expm1(voltage_array / V_T)
-        return (np.asarray(I),)
+        return (np.asarray(I, dtype=float),)

@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.typing as npt
 
 from semiconductor_sim.materials import Material
 from semiconductor_sim.utils import DEFAULT_T, k_B, q
@@ -72,22 +73,22 @@ class SolarCell(Device):
 
     def iv_characteristic(
         self,
-        voltage_array: np.ndarray,
-        n_conc: np.ndarray | float | None = None,
-        p_conc: np.ndarray | float | None = None,
-    ) -> tuple[np.ndarray, ...]:
+        voltage_array: npt.NDArray[np.floating],
+        n_conc: npt.NDArray[np.floating] | float | None = None,
+        p_conc: npt.NDArray[np.floating] | float | None = None,
+    ) -> tuple[npt.NDArray[np.floating], ...]:
         """
         Calculate the current for a given array of voltages under illumination.
 
         Parameters:
-            voltage_array (np.ndarray): Array of voltage values (V)
+            voltage_array: Array of voltage values (V)
 
         Returns:
             Tuple containing one element:
-            - current_array (np.ndarray): Array of current values (A)
+            - current_array: Array of current values (A)
         """
         I = self.I_sc - self.I_s * safe_expm1(voltage_array / (k_B * self.temperature / q))
-        return (np.asarray(I),)
+        return (np.asarray(I, dtype=float),)
 
     def __repr__(self) -> str:
         return (
@@ -96,13 +97,17 @@ class SolarCell(Device):
             f"I_s={self.I_s}, material={self.material.symbol if self.material else None})"
         )
 
-    def plot_iv_characteristic(self, voltage, current):
+    def plot_iv_characteristic(
+        self,
+        voltage: npt.NDArray[np.floating],
+        current: npt.NDArray[np.floating],
+    ) -> None:
         """
         Plot the IV characteristics of the solar cell.
 
         Parameters:
-            voltage (np.ndarray): Voltage values (V)
-            current (np.ndarray): Current values (A)
+            voltage: Voltage values (V)
+            current: Current values (A)
         """
         use_headless_backend("Agg")
         apply_basic_style()
