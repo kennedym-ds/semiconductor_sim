@@ -8,6 +8,15 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - Nothing yet.
 
+## [1.0.5] - 2025-09-14
+
+### Fixed (1.0.5)
+
+- Corrected invalid quoting in `pyproject.toml` project version that caused the
+  Publish to PyPI workflow to fail parsing during build for tag `v1.0.4`.
+- Bumped version to `1.0.5` and verified lint, types, tests (coverage ≥ 80%),
+  and strict docs locally prior to re-tagging.
+
 ## [1.0.3] - 2025-09-14
 
 ### Changed (1.0.3)
