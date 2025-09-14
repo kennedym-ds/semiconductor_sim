@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "semiconductor-sim"
-version = "0.1.1"
+version = "1.0.0"
 description = "A simulation library for basic semiconductor devices aimed at undergraduates."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,7 +24,7 @@ dependencies = [
 	"joblib",
 ]
 classifiers = [
-	"Development Status :: 3 - Alpha",
+	"Development Status :: 5 - Production/Stable",
 	"Intended Audience :: Education",
 	"Intended Audience :: Science/Research",
 	"Topic :: Scientific/Engineering",

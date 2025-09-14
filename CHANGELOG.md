@@ -8,6 +8,27 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - Nothing yet.
 
+## [1.0.0] - 2025-09-14
+
+### Added (1.0.0)
+
+- BJT device model with Early effect and complementary `PNP` variant.
+- Gallery generation script now includes BJT transfer and
+  output plots; added tiles and ordering.
+- Tests expanded for BJT/PNP and Schottky edge cases; total coverage ~84%.
+- VS Code tasks: combined docs build (images + strict) and pre-push suite.
+- Docs workflow hardened: generate gallery before strict build,
+  add concurrency, upload artifacts.
+
+### Changed (1.0.0)
+
+- Documentation updated for BJT/PNP with examples and images; gallery reordered.
+- Pre-commit config and workflows tuned for stability on Windows and CI.
+
+### Fixed (1.0.0)
+
+- Stabilized BJT near-cutoff test threshold and removed magic number per linter.
+
 ## [0.1.1] - 2025-09-13
 
 ### Added (0.1.1)
