@@ -1,4 +1,0 @@
-# file: C:\Users\Micha\OneDrive\Documents\Projects\semiconductor_sim\semiconductor_sim\devices\varactor_diode.py
-# hypothesis_version: 6.138.15
-
-[8.854e-14, 1e-06, 0.0001, 0.0005, 0.7, 1.5, 11.7, 15000000000.0, 'Agg', 'Capacitance (F)', 'Current (A)', 'IV Characteristic', 'Junction Capacitance', 'Reverse Voltage (V)', 'SRH Recombination', 'Voltage (V)', 'tab:blue', 'tab:green', 'y']

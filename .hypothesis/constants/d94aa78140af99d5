@@ -1,4 +1,0 @@
-# file: /home/runner/work/semiconductor_sim/semiconductor_sim/semiconductor_sim/devices/tunnel_diode.py
-# hypothesis_version: 6.138.16
-
-[1e-06, 0.0001, 0.7, 1.5, 10000000000.0, 'Agg', 'Current (A)', 'IV Characteristic', 'SRH Recombination', 'Voltage (V)', 'tab:blue', 'tab:green', 'y']
