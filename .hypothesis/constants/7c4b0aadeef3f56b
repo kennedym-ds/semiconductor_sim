@@ -1,0 +1,4 @@
+# file: C:\Users\Micha\OneDrive\Documents\Projects\semiconductor_sim\semiconductor_sim\__init__.py
+# hypothesis_version: 6.138.15
+
+['1.0.0', 'BJT', 'LED', 'MOSCapacitor', 'PINDiode', 'PNJunctionDiode', 'PNP', 'Photodiode', 'SchottkyDiode', 'SolarCell', 'TunnelDiode', 'VaractorDiode', 'ZenerDiode']
