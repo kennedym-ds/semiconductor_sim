@@ -103,11 +103,10 @@ class BJT(Device):
         va = float(self.early_voltage)
         n_vbe = int(self.vbe_values.size)
         n_vce = int(V_CE.size)
-        if not np.isfinite(va) or va <= 0.0:
-            term_early = np.ones((n_vbe, n_vce))
-        else:
+        term_early = np.ones((n_vbe, n_vce), dtype=float)
+        if np.isfinite(va) and va > 0.0:
             base = 1.0 + (V_CE / va)
-            term_early = np.broadcast_to(base, (n_vbe, n_vce))
+            term_early[:] = base
 
         I_C = self.I_s * term_vbe * term_early
         I_C = np.maximum(I_C, 0.0)
@@ -189,11 +188,10 @@ class PNP(Device):
         va = float(self.early_voltage)
         n_veb = int(self.veb_values.size)
         n_vce = int(V_CE.size)
-        if not np.isfinite(va) or va <= 0.0:
-            term_early = np.ones((n_veb, n_vce))
-        else:
+        term_early = np.ones((n_veb, n_vce), dtype=float)
+        if np.isfinite(va) and va > 0.0:
             base = 1.0 + ((-V_CE) / va)
-            term_early = np.broadcast_to(base, (n_veb, n_vce))
+            term_early[:] = base
 
         I_C_mag = self.I_s * term_veb * term_early
         I_C = -I_C_mag
