@@ -194,7 +194,7 @@ def bjt_output() -> None:
     plt.title("BJT: Output characteristics")
     plt.xlabel("V_CE (V)")
     plt.ylabel("I_C (A)")
-    for vbe, ic in zip(bjt.vbe_values, ic_grid):
+    for vbe, ic in zip(bjt.vbe_values, ic_grid, strict=True):
         plt.plot(vce, ic, label=f"V_BE={vbe:.2f} V")
     plt.grid(True)
     plt.legend(loc="upper left", fontsize=8)
