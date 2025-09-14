@@ -1,0 +1,4 @@
+# file: /home/runner/work/semiconductor_sim/semiconductor_sim/semiconductor_sim/devices/__init__.py
+# hypothesis_version: 6.138.16
+
+['Device', 'LED', 'MOSCapacitor', 'PNJunctionDiode', 'SolarCell', 'TunnelDiode', 'VaractorDiode', 'ZenerDiode']

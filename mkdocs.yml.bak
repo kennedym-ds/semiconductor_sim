@@ -1,0 +1,28 @@
+site_name: SemiconductorSim
+site_url: https://kennedym-ds.github.io/semiconductor_sim/
+repo_url: https://github.com/kennedym-ds/semiconductor_sim
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - content.code.copy
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            merge_init_into_class: true
+            members_order: alphabetical
+            show_source: true
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Examples: examples.md
+  - Changelog: changelog.md
+  - API: api.md
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true

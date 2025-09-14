@@ -1,0 +1,8 @@
+site_name: SemiconductorSim
+site_url: https://kennedym-ds.github.io/semiconductor_sim/
+repo_url: https://github.com/kennedym-ds/semiconductor_sim
+theme:
+  name: mkdocs
+  features:
+    - navigation.tabs
+    - content.code.copy
