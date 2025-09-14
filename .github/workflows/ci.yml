@@ -29,15 +29,13 @@ jobs:
           cache: 'pip'
           cache-dependency-path: |
             requirements.txt
-            pyprojects.toml
             pyproject.toml
+            requirements-dev.txt
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest ruff mypy coverage
-          pip install pip-audit
+          pip install -r requirements-dev.txt
 
       - name: Lint (ruff)
         run: ruff check .
