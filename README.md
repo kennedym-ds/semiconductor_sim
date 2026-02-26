@@ -38,6 +38,7 @@ semiconductor engineering.
 - LED Simulation: IV with emission, efficiency model, temperature effects
 - Solar Cell Simulation: IV under illumination, short/open-circuit conditions
 - Tunnel, Varactor, Zener, MOS Capacitor: teaching-focused models and plots
+- MOSFET (NMOS): square-law output characteristics with transconductance curves
 - Interactive Visualizations: Jupyter widgets and Plotly/Matplotlib support
 - Documentation: API references, tutorials, and example scripts
 
@@ -50,6 +51,7 @@ semiconductor engineering.
 - Varactor Diode: Junction capacitance vs. reverse bias; IV characteristic.
 - Zener Diode: Breakdown behavior with optional ML-predicted Zener voltage.
 - MOS Capacitor: C–V and I–V characteristics with depletion width model.
+- MOSFET (NMOS): Output characteristics using a long-channel square-law model.
 
 ## 🔧 Installation
 

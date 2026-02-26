@@ -29,3 +29,5 @@ Explore the built-in device models and how materials affect their behavior.
 - Zener Diode: [docs](zener_diode.md)
 
   ![Zener](../images/zener_iv.png)
+
+- MOSFET: [docs](mosfet.md)

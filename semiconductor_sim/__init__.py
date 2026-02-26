@@ -3,6 +3,7 @@
 from .devices import (
     BJT,
     LED,
+    MOSFET,
     PNP,
     MOSCapacitor,
     Photodiode,
@@ -20,6 +21,7 @@ __version__ = "1.0.3"
 __all__ = [
     "BJT",
     "LED",
+    "MOSFET",
     "MOSCapacitor",
     "Photodiode",
     "PINDiode",

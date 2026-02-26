@@ -4,6 +4,7 @@ from .base import Device
 from .bjt import BJT, PNP
 from .led import LED
 from .mos_capacitor import MOSCapacitor
+from .mosfet import MOSFET
 from .photodiode import Photodiode
 from .pin_diode import PINDiode
 from .pn_junction import PNJunctionDiode
@@ -18,6 +19,7 @@ __all__ = [
     "PNP",
     "Device",
     "LED",
+    "MOSFET",
     "MOSCapacitor",
     "PINDiode",
     "PNJunctionDiode",
