@@ -75,15 +75,20 @@ class MOSFET(Device):
         ax1.set_xlabel("VDS (V)")
         ax1.set_ylabel("Drain Current (A)")
         ax1.grid(True)
+        handles, labels = ax1.get_legend_handles_labels()
 
         if gm_grid is not None:
             ax2 = ax1.twinx()
             for idx, vgs in enumerate(self.vgs_values):
                 ax2.plot(voltage, gm_grid[idx], linestyle="--", label=f"gm (VGS={vgs:.2f} V)")
             ax2.set_ylabel("Transconductance (S)")
+            handles2, labels2 = ax2.get_legend_handles_labels()
+            handles.extend(handles2)
+            labels.extend(labels2)
 
-        fig.tight_layout()
         plt.title("NMOS Output Characteristics")
+        fig.legend(handles, labels, loc="upper left", bbox_to_anchor=(0.12, 0.88))
+        fig.tight_layout()
         plt.show()
 
     def __repr__(self) -> str:
