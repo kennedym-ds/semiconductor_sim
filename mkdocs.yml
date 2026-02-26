@@ -26,6 +26,7 @@ nav:
     - Schottky Diode: devices/schottky_diode.md
     - Photodiode: devices/photodiode.md
     - BJT: devices/bjt.md
+    - MOSFET: devices/mosfet.md
     - LED: devices/led.md
     - Solar Cell: devices/solar_cell.md
     - MOS Capacitor: devices/mos_capacitor.md

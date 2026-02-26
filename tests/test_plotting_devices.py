@@ -3,6 +3,7 @@
 import numpy as np
 
 from semiconductor_sim import (
+    MOSFET,
     MOSCapacitor,
     PNJunctionDiode,
     SolarCell,
@@ -32,6 +33,13 @@ def test_mos_plot_iv_and_cv():
     I, R = m.iv_characteristic(v, n_conc=1e16, p_conc=1e16)
     m.plot_iv_characteristic(v, I, R)
     m.plot_capacitance_vs_voltage(v)
+
+
+def test_mosfet_plot_output_characteristics():
+    m = MOSFET(vgs_values=[1.0, 1.5, 2.0])
+    v = np.linspace(0.0, 3.0, 6)
+    ids, gm = m.iv_characteristic(v)
+    m.plot_output_characteristics(v, ids, gm)
 
 
 def test_varactor_plot_iv_and_cj():
