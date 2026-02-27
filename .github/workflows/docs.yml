@@ -40,7 +40,7 @@ jobs:
       - name: Build site
         run: mkdocs build --strict
       - name: Upload gallery images artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: gallery-images
           path: docs/images/*.png
